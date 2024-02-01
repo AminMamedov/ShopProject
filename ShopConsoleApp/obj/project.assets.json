@@ -789,7 +789,7 @@
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "6.0.26",
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.26",
-          "Shop.Core": "1.0.0"
+          "Shop.DataAccess": "1.0.0"
         },
         "compile": {
           "bin/placeholder/Shop.Business.dll": {}
@@ -818,7 +818,7 @@
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "6.0.26",
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.26",
-          "Shop.Business": "1.0.0"
+          "Shop.Core": "1.0.0"
         },
         "compile": {
           "bin/placeholder/Shop.DataAccess.dll": {}
@@ -2069,7 +2069,7 @@
       "Microsoft.EntityFrameworkCore >= 6.0.26",
       "Microsoft.EntityFrameworkCore.SqlServer >= 6.0.26",
       "Microsoft.EntityFrameworkCore.Tools >= 6.0.26",
-      "Shop.DataAccess >= 1.0.0"
+      "Shop.Business >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -2099,8 +2099,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\A055\\source\\repos\\Shop\\Shop.DataAccess\\Shop.DataAccess.csproj": {
-              "projectPath": "C:\\Users\\A055\\source\\repos\\Shop\\Shop.DataAccess\\Shop.DataAccess.csproj"
+            "C:\\Users\\A055\\source\\repos\\Shop\\Shop.Business\\Shop.Business.csproj": {
+              "projectPath": "C:\\Users\\A055\\source\\repos\\Shop\\Shop.Business\\Shop.Business.csproj"
             }
           }
         }

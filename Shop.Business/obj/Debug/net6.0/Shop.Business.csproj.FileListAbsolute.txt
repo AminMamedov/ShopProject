@@ -15,3 +15,5 @@ C:\Users\A055\source\repos\Shop\Shop.Business\obj\Debug\net6.0\ref\Shop.Business
 C:\Users\A055\source\repos\Shop\Shop.Business\bin\Debug\net6.0\Shop.Core.dll
 C:\Users\A055\source\repos\Shop\Shop.Business\bin\Debug\net6.0\Shop.Core.pdb
 C:\Users\A055\source\repos\Shop\Shop.Business\obj\Debug\net6.0\Shop.Business.csproj.CopyComplete
+C:\Users\A055\source\repos\Shop\Shop.Business\bin\Debug\net6.0\Shop.DataAccess.dll
+C:\Users\A055\source\repos\Shop\Shop.Business\bin\Debug\net6.0\Shop.DataAccess.pdb

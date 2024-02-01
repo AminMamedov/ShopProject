@@ -7,9 +7,7 @@ C:\Users\A055\source\repos\Shop\Shop.DataAccess\bin\Debug\net6.0\Shop.DataAccess
 C:\Users\A055\source\repos\Shop\Shop.DataAccess\bin\Debug\net6.0\Shop.DataAccess.runtimeconfig.json
 C:\Users\A055\source\repos\Shop\Shop.DataAccess\bin\Debug\net6.0\Shop.DataAccess.dll
 C:\Users\A055\source\repos\Shop\Shop.DataAccess\bin\Debug\net6.0\Shop.DataAccess.pdb
-C:\Users\A055\source\repos\Shop\Shop.DataAccess\bin\Debug\net6.0\Shop.Business.dll
 C:\Users\A055\source\repos\Shop\Shop.DataAccess\bin\Debug\net6.0\Shop.Core.dll
-C:\Users\A055\source\repos\Shop\Shop.DataAccess\bin\Debug\net6.0\Shop.Business.pdb
 C:\Users\A055\source\repos\Shop\Shop.DataAccess\bin\Debug\net6.0\Shop.Core.pdb
 C:\Users\A055\source\repos\Shop\Shop.DataAccess\obj\Debug\net6.0\Shop.DataAccess.csproj.CopyComplete
 C:\Users\A055\source\repos\Shop\Shop.DataAccess\obj\Debug\net6.0\Shop.DataAccess.dll

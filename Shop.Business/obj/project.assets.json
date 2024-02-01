@@ -796,6 +796,21 @@
         "runtime": {
           "bin/placeholder/Shop.Core.dll": {}
         }
+      },
+      "Shop.DataAccess/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "6.0.26",
+          "Microsoft.EntityFrameworkCore.SqlServer": "6.0.26",
+          "Shop.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Shop.DataAccess.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Shop.DataAccess.dll": {}
+        }
       }
     }
   },
@@ -2022,6 +2037,11 @@
       "type": "project",
       "path": "../Shop.Core/Shop.Core.csproj",
       "msbuildProject": "../Shop.Core/Shop.Core.csproj"
+    },
+    "Shop.DataAccess/1.0.0": {
+      "type": "project",
+      "path": "../Shop.DataAccess/Shop.DataAccess.csproj",
+      "msbuildProject": "../Shop.DataAccess/Shop.DataAccess.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -2029,7 +2049,7 @@
       "Microsoft.EntityFrameworkCore >= 6.0.26",
       "Microsoft.EntityFrameworkCore.SqlServer >= 6.0.26",
       "Microsoft.EntityFrameworkCore.Tools >= 6.0.26",
-      "Shop.Core >= 1.0.0"
+      "Shop.DataAccess >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -2059,8 +2079,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\A055\\source\\repos\\Shop\\Shop.Core\\Shop.Core.csproj": {
-              "projectPath": "C:\\Users\\A055\\source\\repos\\Shop\\Shop.Core\\Shop.Core.csproj"
+            "C:\\Users\\A055\\source\\repos\\Shop\\Shop.DataAccess\\Shop.DataAccess.csproj": {
+              "projectPath": "C:\\Users\\A055\\source\\repos\\Shop\\Shop.DataAccess\\Shop.DataAccess.csproj"
             }
           }
         }

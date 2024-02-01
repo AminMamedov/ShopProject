@@ -11,7 +11,7 @@
           "Microsoft.EntityFrameworkCore": "6.0.26",
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.26",
           "Microsoft.EntityFrameworkCore.Tools": "6.0.26",
-          "Shop.DataAccess": "1.0.0"
+          "Shop.Business": "1.0.0"
         },
         "runtime": {
           "ShopConsoleApp.dll": {}
@@ -494,7 +494,7 @@
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "6.0.26",
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.26",
-          "Shop.Core": "1.0.0"
+          "Shop.DataAccess": "1.0.0"
         },
         "runtime": {
           "Shop.Business.dll": {}
@@ -513,7 +513,7 @@
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "6.0.26",
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.26",
-          "Shop.Business": "1.0.0"
+          "Shop.Core": "1.0.0"
         },
         "runtime": {
           "Shop.DataAccess.dll": {}

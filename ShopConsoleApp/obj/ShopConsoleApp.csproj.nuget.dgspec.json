@@ -28,8 +28,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\A055\\source\\repos\\Shop\\Shop.Core\\Shop.Core.csproj": {
-                "projectPath": "C:\\Users\\A055\\source\\repos\\Shop\\Shop.Core\\Shop.Core.csproj"
+              "C:\\Users\\A055\\source\\repos\\Shop\\Shop.DataAccess\\Shop.DataAccess.csproj": {
+                "projectPath": "C:\\Users\\A055\\source\\repos\\Shop\\Shop.DataAccess\\Shop.DataAccess.csproj"
               }
             }
           }
@@ -174,8 +174,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\A055\\source\\repos\\Shop\\Shop.Business\\Shop.Business.csproj": {
-                "projectPath": "C:\\Users\\A055\\source\\repos\\Shop\\Shop.Business\\Shop.Business.csproj"
+              "C:\\Users\\A055\\source\\repos\\Shop\\Shop.Core\\Shop.Core.csproj": {
+                "projectPath": "C:\\Users\\A055\\source\\repos\\Shop\\Shop.Core\\Shop.Core.csproj"
               }
             }
           }
@@ -249,8 +249,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\A055\\source\\repos\\Shop\\Shop.DataAccess\\Shop.DataAccess.csproj": {
-                "projectPath": "C:\\Users\\A055\\source\\repos\\Shop\\Shop.DataAccess\\Shop.DataAccess.csproj"
+              "C:\\Users\\A055\\source\\repos\\Shop\\Shop.Business\\Shop.Business.csproj": {
+                "projectPath": "C:\\Users\\A055\\source\\repos\\Shop\\Shop.Business\\Shop.Business.csproj"
               }
             }
           }

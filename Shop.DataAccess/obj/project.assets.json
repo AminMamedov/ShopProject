@@ -783,21 +783,6 @@
           }
         }
       },
-      "Shop.Business/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v6.0",
-        "dependencies": {
-          "Microsoft.EntityFrameworkCore": "6.0.26",
-          "Microsoft.EntityFrameworkCore.SqlServer": "6.0.26",
-          "Shop.Core": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/Shop.Business.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Shop.Business.dll": {}
-        }
-      },
       "Shop.Core/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
@@ -2033,11 +2018,6 @@
         "version.txt"
       ]
     },
-    "Shop.Business/1.0.0": {
-      "type": "project",
-      "path": "../Shop.Business/Shop.Business.csproj",
-      "msbuildProject": "../Shop.Business/Shop.Business.csproj"
-    },
     "Shop.Core/1.0.0": {
       "type": "project",
       "path": "../Shop.Core/Shop.Core.csproj",
@@ -2049,7 +2029,7 @@
       "Microsoft.EntityFrameworkCore >= 6.0.26",
       "Microsoft.EntityFrameworkCore.SqlServer >= 6.0.26",
       "Microsoft.EntityFrameworkCore.Tools >= 6.0.26",
-      "Shop.Business >= 1.0.0"
+      "Shop.Core >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -2079,8 +2059,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\A055\\source\\repos\\Shop\\Shop.Business\\Shop.Business.csproj": {
-              "projectPath": "C:\\Users\\A055\\source\\repos\\Shop\\Shop.Business\\Shop.Business.csproj"
+            "C:\\Users\\A055\\source\\repos\\Shop\\Shop.Core\\Shop.Core.csproj": {
+              "projectPath": "C:\\Users\\A055\\source\\repos\\Shop\\Shop.Core\\Shop.Core.csproj"
             }
           }
         }
