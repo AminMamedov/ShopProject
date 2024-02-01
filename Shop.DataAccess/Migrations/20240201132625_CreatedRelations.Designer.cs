@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shop.DataAccess.DataAccess;
 
@@ -11,9 +12,10 @@ using Shop.DataAccess.DataAccess;
 namespace Shop.DataAccess.Migrations
 {
     [DbContext(typeof(ShopDbContext))]
-    partial class ShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240201132625_CreatedRelations")]
+    partial class CreatedRelations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -129,8 +131,6 @@ namespace Shop.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DiscountId");
-
                     b.ToTable("Products");
                 });
 
@@ -243,17 +243,6 @@ namespace Shop.DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Shop.Core.Entities.Product", b =>
-                {
-                    b.HasOne("Shop.Core.Entities.Discount", "Discount")
-                        .WithMany("Product")
-                        .HasForeignKey("DiscountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Discount");
-                });
-
             modelBuilder.Entity("Shop.Core.Entities.ProductInvoice", b =>
                 {
                     b.HasOne("Shop.Core.Entities.Invoice", "Invoice")
@@ -287,11 +276,6 @@ namespace Shop.DataAccess.Migrations
             modelBuilder.Entity("Shop.Core.Entities.Basket", b =>
                 {
                     b.Navigation("BasketProduct");
-                });
-
-            modelBuilder.Entity("Shop.Core.Entities.Discount", b =>
-                {
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Shop.Core.Entities.Invoice", b =>

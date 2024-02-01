@@ -20,7 +20,57 @@ public class ShopDbContext:DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        #region One-TO-One
         
+        modelBuilder.Entity<User>()
+            .HasOne(u => u.Basket)
+            .WithOne(b => b.User)
+            .HasForeignKey<Basket>(b => b.UserId);
+        #endregion
+
+        #region one-to-many
+        modelBuilder.Entity<User>()
+            .HasMany(u => u.Wallet)
+            .WithOne(w => w.User)
+            .HasForeignKey(b => b.UserId);
+
+        modelBuilder.Entity<User>()
+            .HasMany(u => u.Invoice)
+            .WithOne(i => i.User)
+            .HasForeignKey(i => i.UserId);
+
+        modelBuilder.Entity<Discount>()
+            .HasMany(d => d.Product)
+            .WithOne(p => p.Discount)
+            .HasForeignKey(p => p.DiscountId);
+
+        #endregion
+        #region many-to-many
+
+        modelBuilder.Entity<BasketProduct>()
+            .HasKey(bp => new { bp.ProductId, bp.BaskerID });
+        modelBuilder.Entity<Basket>()
+            .HasMany(b => b.BasketProduct)
+            .WithOne(bp => bp.Basket)
+            .HasForeignKey(bp=>bp.BaskerID);
+        modelBuilder.Entity<Product>()
+            .HasMany(p => p.BasketProduct)
+            .WithOne(bp => bp.Product)
+            .HasForeignKey(bp=>bp.ProductId);
+
+
+        modelBuilder.Entity<ProductInvoice>()
+            .HasKey(pi => new {pi.ProductId,pi.InvoiceId});
+        modelBuilder.Entity<Product>()
+            .HasMany(p => p.ProductInvoice)
+            .WithOne(pi => pi.Product)
+            .HasForeignKey(pi =>pi.ProductId);
+        modelBuilder.Entity<Invoice>()
+            .HasMany(i => i.ProductInvoice)
+            .WithOne(pi => pi.Invoice)
+            .HasForeignKey(pi => pi.InvoiceId);
+        #endregion
+
     }
 
 
