@@ -9,7 +9,7 @@ public class User : BaseEntities
     public string Username { get; set; } = null!;
     public string Password { get; set; } = null!;
     public string Email { get; set; } = null!;
-    public bool SignIn { get; set; }
+    public bool SignIn { get; set; } = false;
     public Basket Basket { get; set; }
     public ICollection<Wallet> Wallet { get; set; }
     public ICollection<Invoice> Invoice { get; set; }

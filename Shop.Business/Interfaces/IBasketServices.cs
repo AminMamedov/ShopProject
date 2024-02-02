@@ -2,6 +2,6 @@
 
 public interface IBasketServices
 {
-    void CratedBasket(int userId);
+    void CrateBasket(int userId);
     void ShowBasketProducts(int userId);
 }

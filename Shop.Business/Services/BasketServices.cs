@@ -9,7 +9,7 @@ public class BasketServices : IBasketServices
 {
     ShopDbContext context = new ShopDbContext();
 
-    public void CratedBasket(int userId)
+    public void CrateBasket(int userId)
     {
         var us = context.Users.Find(userId);
         if (us != null)
@@ -18,10 +18,11 @@ public class BasketServices : IBasketServices
             {
                 Basket basket = new()
                 {
-                    UserId = us.Id
-                    
+                    UserId = userId                   
 
                 };
+                context.Baskets.Add(basket);
+                context.SaveChanges();
             }
             
             
@@ -39,7 +40,7 @@ public class BasketServices : IBasketServices
             {
                 foreach(var product in context.BasketProducts)
                 {
-                    if (product.BaskerID == bas.Id)
+                    if (product.BasketID == bas.Id)
                     {
                         Console.WriteLine( $"Product name:{product.Product.Name}; product price :{product.Product.Price}");
                     }

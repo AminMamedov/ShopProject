@@ -14,15 +14,19 @@ public class WalletServices : IWalletServices
         if (string.IsNullOrEmpty(cardNumber)) throw new ArgumentNullException();
         var wall = context.Wallets.FirstOrDefault(w => w.CardNumber == cardNumber);
         if (wall is not null) throw new AlreadyExistException($"Card with number {cardNumber} is already exist");
-
+        var us = context.Users.FirstOrDefault(u => u.Username == userName);
+        if(us.SignIn == true)
+        {
         Wallet wallet = new()
         {
             CardNumber = cardNumber,
-            UserId = context.Users.First(u => u.Username == userName).Id,
+            UserId = us.Id,
             CardBalance = cardBalance
         };
         context.Wallets.Add( wallet );
         context.SaveChanges();
+
+        }
     }
 
     public void DeleteWallet(string userName, string password, int walletId)

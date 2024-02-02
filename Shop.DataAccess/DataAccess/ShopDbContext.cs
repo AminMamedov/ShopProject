@@ -48,11 +48,11 @@ public class ShopDbContext:DbContext
         #region many-to-many
 
         modelBuilder.Entity<BasketProduct>()
-            .HasKey(bp => new { bp.ProductId, bp.BaskerID });
+            .HasKey(bp => new { bp.ProductId, bp.BasketID });
         modelBuilder.Entity<Basket>()
             .HasMany(b => b.BasketProduct)
             .WithOne(bp => bp.Basket)
-            .HasForeignKey(bp=>bp.BaskerID);
+            .HasForeignKey(bp=>bp.BasketID);
         modelBuilder.Entity<Product>()
             .HasMany(p => p.BasketProduct)
             .WithOne(bp => bp.Product)

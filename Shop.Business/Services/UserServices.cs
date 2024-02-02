@@ -55,9 +55,23 @@ public class UserServices : IUserServices
         context.Users.Add(user);
         context.SaveChanges();
     }
-    public void GetUserWallets(int userId, string password)
+    public void GetUserWallets(int userId)
     {
-        throw new NotImplementedException();
+        var us = context.Users.Find(userId);
+        if(us.SignIn == true)
+        {
+            foreach(var wallet in context.Wallets)
+            {
+                if(wallet.UserId == userId)
+                {
+                    Console.WriteLine($"Card number : {wallet.CardNumber} ; card balance : {wallet.CardBalance}");
+                }
+            }
+        }
+        else
+        {
+            throw new NotLoggedInException("Please, log in and try again");
+        }
     }
 
     public void LogIn(string userName, string email, string password)
@@ -77,9 +91,11 @@ public class UserServices : IUserServices
                 if (u2.Password != password) throw new IncorrectExeption("Icorrect user email or password , try again");
                 if (u2.Password == password)
                 {
+                    
                     Console.WriteLine("Welcome");
-                    u2.SignIn = true;
+                    u2.SignIn =true;
                 }
+                context.SaveChanges() ;
             }
 
         }
@@ -91,6 +107,8 @@ public class UserServices : IUserServices
                 Console.WriteLine("Welcome");
                 u1.SignIn = true;
             }
+            context.SaveChanges();
+
         }
 
     }
@@ -104,6 +122,7 @@ public class UserServices : IUserServices
             us.SignIn = false;
 
         }
+        context.SaveChanges();
 
 
     }

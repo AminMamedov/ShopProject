@@ -1,2 +1,4 @@
 ﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+using Shop.Business.Services;
+
+Console.WriteLine("Shop project");
