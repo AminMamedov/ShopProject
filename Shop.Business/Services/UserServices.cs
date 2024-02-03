@@ -28,7 +28,9 @@ public class UserServices : IUserServices
         };
         context.Users.Add(user);
         context.SaveChanges();
-
+        BasketServices basketServices = new BasketServices();
+        basketServices.CrateBasket(user.Id);
+        
     }
 
     public void DeleteUser(int userId, string password)

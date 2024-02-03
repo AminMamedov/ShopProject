@@ -5,7 +5,7 @@ public class Basket
     public int Id { get; set; }
     public int UserId { get; set; } 
     public int ProductCount { get; set; } = 0;
-    public User User { get; set; }
+    public User User { get; set; } = null!;
     public ICollection<BasketProduct> BasketProduct { get; set; }
 
 }

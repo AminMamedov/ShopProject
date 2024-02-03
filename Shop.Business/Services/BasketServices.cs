@@ -2,50 +2,64 @@
 using Shop.Core.Entities;
 using Shop.DataAccess.DataAccess;
 using Shop.Business.Utilities.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Shop.Business.Services;
 
 public class BasketServices : IBasketServices
 {
-    ShopDbContext context = new ShopDbContext();
+    private ShopDbContext context { get; }
+    public BasketServices()
+    {
+        context = new ShopDbContext();
+    }
 
     public void CrateBasket(int userId)
     {
         var us = context.Users.Find(userId);
         if (us != null)
         {
-            if (us.SignIn == true)
-            {
-                Basket basket = new()
-                {
-                    UserId = userId                   
 
-                };
-                context.Baskets.Add(basket);
-                context.SaveChanges();
-            }
-            
-            
+            Basket basket = new()
+            {
+                UserId = userId
+
+            };
+            context.Baskets.Add(basket);
+            context.SaveChanges();
+
+
+
         }
     }
 
+   
     public void ShowBasketProducts(int userId)
     {
         var us = context.Users.Find(userId);
-        var bas = context.Baskets.FirstOrDefault(b => b.UserId == userId);
-        if (bas is null) throw new NotFoundException($"User with name {us.Username} doesn't have basket");
-        if(us != null)
+
+        if (us != null)
         {
+            var bas = context.Baskets.FirstOrDefault(b => b.UserId == userId);
+            if (bas is null) throw new NotFoundException($"User with name {us.Username} doesn't have a basket");
+            if (bas.ProductCount == 0) throw new DoesNotExistException("There is not any product in your basket");
             if (us.SignIn == true)
             {
-                foreach(var product in context.BasketProducts)
+                var basketProducts = context.BasketProducts.ToList();
+
+                foreach (var product in basketProducts)
                 {
-                    if (product.BasketID == bas.Id)
+                    if (product is not null && product.BasketID == bas.Id)
                     {
-                        Console.WriteLine( $"Product name:{product.Product.Name}; product price :{product.Product.Price}");
+                        var pro = context.Products.FirstOrDefault(p => p.Id == product.ProductId);
+                        if (pro != null)
+                        {
+                            Console.WriteLine($"Product name: {pro.Name}; product price: {pro.Price}");
+                        }
                     }
                 }
             }
         }
     }
+
 }
