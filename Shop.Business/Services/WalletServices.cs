@@ -7,6 +7,8 @@ namespace Shop.Business.Services;
 
 public class WalletServices : IWalletServices
 {
+    #region UserMethods
+
     ShopDbContext context = new ShopDbContext();
     public void AddWallet(string userName,string cardNumber, decimal cardBalance )
     {
@@ -44,6 +46,10 @@ public class WalletServices : IWalletServices
 
 
     }
+    #endregion
+    #region AdminUser Methods
 
-    
+    #endregion
+
+
 }

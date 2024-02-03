@@ -9,57 +9,58 @@ public class ProductServices : IProductServices
 {
     ShopDbContext context = new ShopDbContext();
 
-    public void AddProductToBasket(int productId, int basketId)
+    public void AddProductToBasket(int productId, int userId, int proCount)
     {
-        var bas = context.Baskets.Find(basketId);
-        if (bas != null)
+        if (productId < 0) { throw new ArgumentOutOfRangeException(); }
+        if (proCount < 0) { throw new ArgumentOutOfRangeException(); }
+        var pro = context.Products.Find(productId);
+        if (pro is null) throw new NotFoundException($"Product with id :{productId} doesn't exist");
+        if (proCount > pro.ProductCount) throw new MoreThanStockCountException($"The product count in stock = {pro.ProductCount}");
+        var us = context.Users.Find(userId);
+        var bas = context.Baskets.FirstOrDefault(b => b.UserId == userId);
+        if (bas is null) throw new DoesNotExistException("This user doesn't have any basket");
+        if (us == null) throw new NotFiniteNumberException($"User with Id :{userId} not found");
+        if (us.SignIn == true)
         {
-            var us = context.Users.Find(bas.UserId);
-            if (us != null)
+            BasketProduct basketProduct = new()
             {
-                if (us.SignIn == true)
-                {
-                    var pro = context.Products.Find(productId);
-                    if (pro is null) throw new NotFoundException($"Product with id :{productId} doesn't exist");
-                    BasketProduct basketProduct = new()
-                    {
-                        ProductId = productId,
-                        BasketID = basketId,
+                ProductId = productId,
+                BasketID = bas.Id,
 
-                    };
-                    bas.ProductCount++;
-                    context.BasketProducts.Add(basketProduct);
-                    context.SaveChanges();
-                }
-            }
-
-
+            };
+            bas.ProductCount = bas.ProductCount + proCount;
+            pro.ProductCount = pro.ProductCount - proCount;
+            context.BasketProducts.Add(basketProduct);
+            context.SaveChanges();
         }
     }
 
-    public void DeleteProductFromBasket(int productId, int basketId)
+    public void DeleteProductFromBasket(int productId, int userId, int proCount)
     {
-        var us = context.Users.FirstOrDefault(u => u.SignIn == true);
-        if (us is null) throw new NotLoggedInException("Please login to delete product from your basket");
-        if (us != null)
+        if (productId < 0) { throw new ArgumentOutOfRangeException(); }
+        if (proCount < 0) { throw new ArgumentOutOfRangeException(); }
+        var pro = context.Products.Find(productId);
+        if (pro is null) throw new NotFoundException($"Product with id :{productId} doesn't exist");
+        var us = context.Users.Find(userId);
+        var bas = context.Baskets.FirstOrDefault(b => b.UserId == userId);
+        if (bas is null) throw new DoesNotExistException("This user doesn't have any basket");
+        if (proCount > bas.ProductCount) throw new MoreThanBasProCountException($"This product's count in your basket  = {bas.ProductCount}");
+        if (us == null) throw new NotFiniteNumberException($"User with Id :{userId} not found");
+        var bp = context.BasketProducts.FirstOrDefault(bp => bp.ProductId == productId);
+        if (bp is null) throw new DoesNotExistException($"Product with Id :{productId} doesn't exist in your basket");
+        if (us.SignIn == true)
         {
-            var bas = context.Baskets.Find(basketId);
-            if (bas != null && bas.UserId == us.Id)
+            bas.ProductCount = bas.ProductCount - proCount;
+            pro.ProductCount = pro.ProductCount + proCount;
+            if (bas.ProductCount == 0)
             {
-                var pro = context.BasketProducts.FirstOrDefault(p => p.ProductId == productId);
-                
-                if (pro is null) throw new NotFiniteNumberException($"Product with id :{productId} not found in your basket");
-                if (pro != null)
-                {
-                    context.BasketProducts.Remove(pro);
-                    bas.ProductCount--;
-                    context.SaveChanges();
-                }
-
+                context.BasketProducts.Remove(bp);
+                context.SaveChanges();
             }
         }
-
     }
+
+    
 
     public void ShowAllProducts()
     {
