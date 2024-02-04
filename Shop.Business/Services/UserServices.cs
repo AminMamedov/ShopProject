@@ -13,22 +13,31 @@ public class UserServices : IUserServices
     {
         context = new ShopDbContext();
     }
-    public void CreateUser(string userName, string email, string password)
+    public void CreateUser(string firstName, string lastName, string phone, string deliveryadd, string userName, string email, string password)
     {
+        if (string.IsNullOrEmpty(firstName)) throw new ArgumentNullException();
+        if (string.IsNullOrEmpty(lastName)) throw new ArgumentNullException();
+        if (string.IsNullOrEmpty(phone)) throw new ArgumentNullException();
+        if (string.IsNullOrEmpty(deliveryadd)) throw new ArgumentNullException();
         if (string.IsNullOrEmpty(userName)) throw new ArgumentNullException();
         if (string.IsNullOrEmpty(email)) throw new ArgumentNullException();
         if (string.IsNullOrEmpty(password)) throw new ArgumentNullException();
 
         var result = context.Users.FirstOrDefault(u => u.Username == userName);
-        if (result is not null) throw new AlreadyExistException($"This username is already exist");
-        var result1 = context.Users.FirstOrDefault(u => u.Email == email);
-        if (result1 is not null) throw new AlreadyExistException($"User with this email is already exist");
+        if (result is not null) throw new AlreadyExistException($"This username is already exist");       
+        var result2 = context.Users.FirstOrDefault(u => u.Email == email);
+        if (result2 is not null) throw new AlreadyExistException($"User with this email is already exist");
 
         User user = new()
         {
+            FirsName = firstName,
+            LastName = lastName,
+            Phone = phone,
+            DeliveryAddress = deliveryadd,
             Username = userName,
             Email = email,
             Password = password
+
         };
         context.Users.Add(user);
         context.SaveChanges();
@@ -46,7 +55,7 @@ public class UserServices : IUserServices
         context.SaveChanges();
     }
 
-    public void UpdateUser(int userId, string password, string newUname, string newPassword, string newEmail)
+    public void UpdateUser(int userId,string password, string newUname, string newPassword, string newEmail)
     {
         var u1 = context.Users.Find(userId);
         if (u1 is null) throw new NotFoundException($"User with id:{userId} was not found.");
@@ -61,12 +70,24 @@ public class UserServices : IUserServices
         context.Users.Add(user);
         context.SaveChanges();
     }
+    public void UpdateUserDetails(int userId, string newPhone, string newDeliveryadd)
+    {
+        var u1 = context.Users.Find(userId);
+        if (u1 is null) throw new NotFoundException($"User with id:{userId} was not found.");
+        if(u1.URegistr == true)
+        {
+            u1.Phone = newPhone;
+            u1.DeliveryAddress = newDeliveryadd;
+            u1.UpdateTime = DateTime.Now;
+        }
+        context.SaveChanges();
+    }
     public void GetUserWallets(int userId)
     {
         var us = context.Users.Find(userId);
         if (us is not null)
         {
-            if (us.SignIn == true)
+            if (us.URegistr == true)
             {
                 foreach (var wallet in context.Wallets)
                 {
@@ -102,7 +123,7 @@ public class UserServices : IUserServices
                 {
 
                     Console.WriteLine("Welcome");
-                    u2.SignIn = true;
+                    u2.URegistr = true;
                 }
                 context.SaveChanges();
             }
@@ -114,7 +135,7 @@ public class UserServices : IUserServices
             if (u1.Password == password)
             {
                 Console.WriteLine("Welcome");
-                u1.SignIn = true;
+                u1.URegistr = true;
             }
             context.SaveChanges();
 
@@ -124,15 +145,16 @@ public class UserServices : IUserServices
 
     public void LogOut()
     {
-        var us = context.Users.FirstOrDefault(u => u.SignIn == true);
+        var us = context.Users.FirstOrDefault(u => u.URegistr == true);
         if (us is null) throw new NotFoundException("You need to log in to log out");
         else
         {
-            us.SignIn = false;
+            us.URegistr = false;
 
         }
         context.SaveChanges();
 
 
     }
+
 }

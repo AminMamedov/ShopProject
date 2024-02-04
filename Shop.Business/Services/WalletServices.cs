@@ -21,7 +21,7 @@ public class WalletServices : IWalletServices
         var wall = context.Wallets.FirstOrDefault(w => w.CardNumber == cardNumber);
         if (wall is not null) throw new AlreadyExistException($"Card with number {cardNumber} is already exist");
         var us = context.Users.FirstOrDefault(u => u.Username == userName);
-        if(us.SignIn == true)
+        if(us.URegistr == true)
         {
         Wallet wallet = new()
         {

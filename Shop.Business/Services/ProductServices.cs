@@ -27,7 +27,7 @@ public class ProductServices : IProductServices
         var bas = context.Baskets.FirstOrDefault(b => b.UserId == userId);
         if (bas is null) throw new DoesNotExistException("This user doesn't have any basket");
         if (us == null) throw new NotFiniteNumberException($"User with Id :{userId} not found");
-        if (us.SignIn == true)
+        if (us.URegistr == true)
         {
             BasketProduct basketProduct = new()
             {
@@ -37,7 +37,7 @@ public class ProductServices : IProductServices
 
             };
             bas.ProductCount = bas.ProductCount + proCount;
-            pro.ProductCount = pro.ProductCount - proCount;
+            
 
             context.BasketProducts.Add(basketProduct);
             context.SaveChanges();
@@ -57,10 +57,10 @@ public class ProductServices : IProductServices
         if (us == null) throw new NotFiniteNumberException($"User with Id :{userId} not found");
         var bp = context.BasketProducts.FirstOrDefault(bp => bp.ProductId == productId);
         if (bp is null) throw new DoesNotExistException($"Product with Id :{productId} doesn't exist in your basket");
-        if (us.SignIn == true)
+        if (us.URegistr == true)
         {
             bas.ProductCount = bas.ProductCount - proCount;
-            pro.ProductCount = pro.ProductCount + proCount;
+            
             bp.ProductCount = bp.ProductCount - proCount;
             if (bas.ProductCount == 0)
             {

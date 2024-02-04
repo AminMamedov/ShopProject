@@ -43,7 +43,7 @@ public class BasketServices : IBasketServices
             var bas = context.Baskets.FirstOrDefault(b => b.UserId == userId);
             if (bas is null) throw new NotFoundException($"User with name {us.Username} doesn't have a basket");
             if (bas.ProductCount == 0) throw new DoesNotExistException("There is not any product in your basket");
-            if (us.SignIn == true)
+            if (us.URegistr == true)
             {
                 var basketProducts = context.BasketProducts.ToList();
 

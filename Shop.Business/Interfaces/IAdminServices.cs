@@ -25,4 +25,6 @@ public  interface IAdminServices
     void DeleteProduct(int productId);
     void ShowAllProducts();
     #endregion
+    void AdminUserLogin(string userName,string email, string password);
+    void AdminUserLogout();
 }
