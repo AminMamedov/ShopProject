@@ -9,7 +9,11 @@ public class WalletServices : IWalletServices
 {
     #region UserMethods
 
-    ShopDbContext context = new ShopDbContext();
+    private ShopDbContext context { get; }
+    public WalletServices()
+    {
+        context = new ShopDbContext();
+    }
     public void AddWallet(string userName,string cardNumber, decimal cardBalance )
     {
         if (string.IsNullOrEmpty(userName)) throw new ArgumentNullException();
@@ -46,10 +50,9 @@ public class WalletServices : IWalletServices
 
 
     }
-    #endregion
-    #region AdminUser Methods
 
     #endregion
+   
 
 
 }

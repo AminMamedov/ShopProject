@@ -7,8 +7,15 @@ namespace Shop.Business.Services;
 
 public class ProductServices : IProductServices
 {
-    ShopDbContext context = new ShopDbContext();
+    private ShopDbContext context { get; }
+    public ProductServices()
+    {
+        context = new ShopDbContext();
+    }
 
+    #region userMethods
+
+    #endregion
     public void AddProductToBasket(int productId, int userId, int proCount)
     {
         if (productId < 0) { throw new ArgumentOutOfRangeException(); }
@@ -26,10 +33,12 @@ public class ProductServices : IProductServices
             {
                 ProductId = productId,
                 BasketID = bas.Id,
+                ProductCount = proCount,
 
             };
             bas.ProductCount = bas.ProductCount + proCount;
             pro.ProductCount = pro.ProductCount - proCount;
+
             context.BasketProducts.Add(basketProduct);
             context.SaveChanges();
         }
@@ -52,6 +61,7 @@ public class ProductServices : IProductServices
         {
             bas.ProductCount = bas.ProductCount - proCount;
             pro.ProductCount = pro.ProductCount + proCount;
+            bp.ProductCount = bp.ProductCount - proCount;
             if (bas.ProductCount == 0)
             {
                 context.BasketProducts.Remove(bp);
@@ -73,4 +83,15 @@ public class ProductServices : IProductServices
 
         }
     }
+    #region adminUser Methods
+    
+
+    
+
+    
+
+    
+
+
+    #endregion
 }

@@ -8,7 +8,11 @@ namespace Shop.Business.Services;
 
 public class UserServices : IUserServices
 {
-    ShopDbContext context = new ShopDbContext();
+    private ShopDbContext context { get; }
+    public UserServices()
+    {
+        context = new ShopDbContext();
+    }
     public void CreateUser(string userName, string email, string password)
     {
         if (string.IsNullOrEmpty(userName)) throw new ArgumentNullException();
@@ -30,7 +34,7 @@ public class UserServices : IUserServices
         context.SaveChanges();
         BasketServices basketServices = new BasketServices();
         basketServices.CrateBasket(user.Id);
-        
+
     }
 
     public void DeleteUser(int userId, string password)
@@ -60,19 +64,22 @@ public class UserServices : IUserServices
     public void GetUserWallets(int userId)
     {
         var us = context.Users.Find(userId);
-        if(us.SignIn == true)
+        if (us is not null)
         {
-            foreach(var wallet in context.Wallets)
+            if (us.SignIn == true)
             {
-                if(wallet.UserId == userId)
+                foreach (var wallet in context.Wallets)
                 {
-                    Console.WriteLine($"Card number : {wallet.CardNumber} ; card balance : {wallet.CardBalance}");
+                    if (wallet.UserId == userId)
+                    {
+                        Console.WriteLine($"Wallet Id:{wallet.Id}; Card number : {wallet.CardNumber} ; card balance : {wallet.CardBalance}");
+                    }
                 }
             }
-        }
-        else
-        {
-            throw new NotLoggedInException("Please, log in and try again");
+            else
+            {
+                throw new NotLoggedInException("Please, log in and try again");
+            }
         }
     }
 
@@ -84,7 +91,7 @@ public class UserServices : IUserServices
 
         var u1 = context.Users.FirstOrDefault(u => u.Username == userName);
 
-        if (u1 is  null)
+        if (u1 is null)
         {
             var u2 = context.Users.FirstOrDefault(u => u.Email == email);
             if (u2 is null) throw new NotFoundException($"User with name: {userName} and email: {email} not exist");
@@ -93,11 +100,11 @@ public class UserServices : IUserServices
                 if (u2.Password != password) throw new IncorrectExeption("Icorrect user email or password , try again");
                 if (u2.Password == password)
                 {
-                    
+
                     Console.WriteLine("Welcome");
-                    u2.SignIn =true;
+                    u2.SignIn = true;
                 }
-                context.SaveChanges() ;
+                context.SaveChanges();
             }
 
         }
