@@ -16,10 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Utilities\Helpers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Shop.DataAccess\Shop.DataAccess.csproj" />
   </ItemGroup>
 
