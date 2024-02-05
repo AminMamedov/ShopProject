@@ -38,11 +38,10 @@ public class WalletServices : IWalletServices
         }
     }
 
-    public void DeleteWallet(int userId, string password, int walletId)
+    public void DeleteWallet(int userId,  int walletId)
     {
         var us = context.Users.Find(userId);
-        if (us is null) throw new DoesNotExistException($"User with id:{userId} doesn't exist");
-        if (string.IsNullOrEmpty(password)) throw new ArgumentNullException();
+        if (us is null) throw new DoesNotExistException($"User with id:{userId} doesn't exist");        
         if (string.IsNullOrEmpty(walletId.ToString())) throw new ArgumentNullException();
 
    

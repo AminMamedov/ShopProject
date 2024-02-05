@@ -302,16 +302,18 @@ Beginning:
                                                 Console.ForegroundColor = ConsoleColor.DarkCyan;
                                                 Console.WriteLine(
                                                                  "-------------REGISTER--------------\n" +
-                                                                 " 1 - Login\n" +
-                                                                 " 2 - Login as admin\n" +
-                                                                 " 3 - If you don't have account, create it:)\n" +
+                                                                 " 1 - Update Login information\n" +
+                                                                 " 2 - Update your information\n" +
+                                                                 " 3 - Delete wallet\n" +
+                                                                 " 4 - Delete your account\n" +
+                                                                 " 5 - Get back\n" +
                                                                  "----------------------------------");
                                                 string? option2 = Console.ReadLine();
                                                 int optionNumber2;
                                                 bool isInt2 = int.TryParse(option2, out optionNumber2);
                                                 if (isInt2 == true)
                                                 {
-                                                    if (optionNumber2 >= 0 && optionNumber2 <= 25)
+                                                    if (optionNumber2 >= 0 && optionNumber2 <= 5)
                                                     {
                                                         switch (optionNumber2)
                                                         {
@@ -380,14 +382,55 @@ Beginning:
                                                             case (int)Settings.DeleteWallet:
                                                                 try
                                                                 {
-
+                                                                    User? user = context.Users.FirstOrDefault(u => u.URegistr == true);
+                                                                    int userId = user.Id;
+                                                                    Console.WriteLine("Enter wallet Id:");
+                                                                    userServices.GetUserWallets(userId);
+                                                                    int walletID = Convert.ToInt32(Console.ReadLine());
+                                                                    Console.ForegroundColor = ConsoleColor.Green;
+                                                                    Console.WriteLine("--------------------------------");
+                                                                    Console.WriteLine("      Process is successful     ");
+                                                                    Console.WriteLine("--------------------------------");
+                                                                    Console.ResetColor();
                                                                 }
                                                                 catch (Exception ex)
                                                                 {
 
-                                                                    throw;
+                                                                    Console.ForegroundColor = ConsoleColor.Red;
+                                                                    Console.WriteLine("--------------------------------");
+                                                                    Console.WriteLine(ex.Message);
+                                                                    Console.WriteLine("--------------------------------");
+                                                                    Console.ResetColor();
+                                                                    goto Settings;
                                                                 }
                                                                 break;
+                                                            case (int)Settings.DeleteUser:
+                                                                try
+                                                                {
+                                                                    User? user = context.Users.FirstOrDefault(u => u.URegistr == true);
+                                                                    int userId = user.Id;
+                                                                    string passwordd = user.Password;
+                                                                    userServices.DeleteUser(userId, passwordd);
+                                                                    Console.ForegroundColor = ConsoleColor.Green;
+                                                                    Console.WriteLine("--------------------------------");
+                                                                    Console.WriteLine("Account was successfully deleted");
+                                                                    Console.WriteLine("--------------------------------");
+                                                                    Console.ResetColor();
+                                                                }
+                                                                catch (Exception ex)
+                                                                {
+                                                                    Console.ForegroundColor = ConsoleColor.Red;
+                                                                    Console.WriteLine("--------------------------------");
+                                                                    Console.WriteLine(ex.Message);
+                                                                    Console.WriteLine("--------------------------------");
+                                                                    Console.ResetColor();
+                                                                    goto Beginning;
+                                                                }
+                                                                break;
+                                                            case (int)Settings.Back:
+                                                                isContinue2 = false;
+                                                                goto Start;
+                                                                
 
                                                         }
                                                     }

@@ -24,7 +24,7 @@ public class UserServices : IUserServices
         if (string.IsNullOrEmpty(password)) throw new ArgumentNullException();
 
         var result = context.Users.FirstOrDefault(u => u.Username == userName);
-        if (result is not null) throw new AlreadyExistException($"This username is already exist");       
+        if (result is not null) throw new AlreadyExistException($"This username is already exist");
         var result2 = context.Users.FirstOrDefault(u => u.Email == email);
         if (result2 is not null) throw new AlreadyExistException($"User with this email is already exist");
 
@@ -55,26 +55,26 @@ public class UserServices : IUserServices
         context.SaveChanges();
     }
 
-    public void UpdateUser(int userId,string password, string newUname, string newPassword, string newEmail)
+    public void UpdateUser(int userId, string password, string newUname, string newPassword, string newEmail)
     {
         var u1 = context.Users.Find(userId);
         if (u1 is null) throw new NotFoundException($"User with id:{userId} was not found.");
         if (u1.Password != password) throw new IncorrectExeption("Incorrect password,try again");
-        context.Users.Remove(u1);
-        User user = new()
+        if (u1.URegistr == true)
         {
-            Username = newUname,
-            Email = newEmail,
-            Password = newPassword
-        };
-        context.Users.Add(user);
-        context.SaveChanges();
+
+            u1.Username = newUname;
+            u1.Email = newEmail;
+            u1.Password = newPassword;
+            u1.UpdateTime = DateTime.Now;
+        }
+            context.SaveChanges();
     }
     public void UpdateUserDetails(int userId, string newPhone, string newDeliveryadd)
     {
         var u1 = context.Users.Find(userId);
         if (u1 is null) throw new NotFoundException($"User with id:{userId} was not found.");
-        if(u1.URegistr == true)
+        if (u1.URegistr == true)
         {
             u1.Phone = newPhone;
             u1.DeliveryAddress = newDeliveryadd;

@@ -11,7 +11,8 @@ public enum Settings
     UpdateUser=1,
     UpdateUserDetails,
     DeleteWallet,
-    DeleteUser
+    DeleteUser,
+    Back
 }
 public enum UserMethods
 {
