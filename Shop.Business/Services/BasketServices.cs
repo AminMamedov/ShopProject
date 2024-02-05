@@ -97,20 +97,20 @@ public class BasketServices : IBasketServices
                                 TotalPrice = count * pro.Price,
                                 CreateTime = DateTime.Now
                             };
-                            context.SaveChanges();
                             context.Invoices.Add(invoice);
+                            context.SaveChanges();
                             ProductInvoice productInvoice = new()
                             {
                                 ProductId = productId,
-                                InvoiceId = context.Invoices.FirstOrDefault(i => i.Id == invoice.Id).Id,
+                                InvoiceId = invoice.Id,
                                 ProductCount = count,
                                 Price = invoice.TotalPrice
 
                             };
+                            context.ProductInvoices.Add(productInvoice);
                             bp.ProductCount = bp.ProductCount - count;
                             wal.CardBalance = wal.CardBalance - (count * pro.Price);
                             pro.ProductCount = pro.ProductCount - count;
-                            context.ProductInvoices.Add(productInvoice);
                             context.SaveChanges();
 
                         }

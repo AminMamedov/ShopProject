@@ -38,16 +38,17 @@ public class WalletServices : IWalletServices
         }
     }
 
-    public void DeleteWallet(string userName, string password, int walletId)
+    public void DeleteWallet(int userId, string password, int walletId)
     {
-        if (string.IsNullOrEmpty(userName)) throw new ArgumentNullException();
+        var us = context.Users.Find(userId);
+        if (us is null) throw new DoesNotExistException($"User with id:{userId} doesn't exist");
         if (string.IsNullOrEmpty(password)) throw new ArgumentNullException();
         if (string.IsNullOrEmpty(walletId.ToString())) throw new ArgumentNullException();
 
-        var user = context.Users.First(u => u.Username == userName);
+   
         var wallet = context.Wallets.FirstOrDefault(w => w.Id == walletId);
         if (wallet is null) throw new DoesNotExistException($"Wallet with id :{walletId} doesn't exist,try again");
-        if (wallet.UserId != user.Id) throw new IncorrectExeption($"Wallet with id :{walletId} doesn't belong to user with name :{userName}");
+        if (wallet.UserId != userId) throw new IncorrectExeption($"Wallet with id :{walletId} doesn't belong to user with name :{us.FirsName}");
         context.Wallets.Remove(wallet);
         context.SaveChanges();
 

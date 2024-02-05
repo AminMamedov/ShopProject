@@ -56,7 +56,7 @@ Beginning:
                         Console.ResetColor();
 
                         bool isContinue1 = true;
-                        while (isContinue)
+                        while (isContinue1)
                         {
                             Console.ForegroundColor = ConsoleColor.DarkYellow;
                             Console.WriteLine("Choose the option:");
@@ -72,7 +72,8 @@ Beginning:
                                              " 6 - Add new wallet\n" +
                                              " 7 - Buy product\n" +
                                              " 8 - Show invoices\n" +
-                                             " 9 - LogOut\n" +
+                                             " 9 - Go to settings\n" +
+                                             " 10 - LogOut\n" +
                                              "----------------------------------");
 
                         Start:
@@ -290,18 +291,105 @@ Beginning:
                                             }
                                             break;
                                         case (int)UserMethods.GoToSettings:
-
-                                            string? option2 = Console.ReadLine();
-                                            int optionNumber2;
-                                            bool isInt2 = int.TryParse(option2, out optionNumber2);
-                                            if (isInt2 == true)
+                                            bool isContinue2 = true;
+                                            while (isContinue2)
                                             {
-                                                if (optionNumber2 >= 0 && optionNumber2 <= 25)
+
+                                            Settings:
+                                                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                                                Console.WriteLine("Choose the option:");
+                                                Console.ResetColor();
+                                                Console.ForegroundColor = ConsoleColor.DarkCyan;
+                                                Console.WriteLine(
+                                                                 "-------------REGISTER--------------\n" +
+                                                                 " 1 - Login\n" +
+                                                                 " 2 - Login as admin\n" +
+                                                                 " 3 - If you don't have account, create it:)\n" +
+                                                                 "----------------------------------");
+                                                string? option2 = Console.ReadLine();
+                                                int optionNumber2;
+                                                bool isInt2 = int.TryParse(option2, out optionNumber2);
+                                                if (isInt2 == true)
                                                 {
-                                                    switch (optionNumber2)
+                                                    if (optionNumber2 >= 0 && optionNumber2 <= 25)
                                                     {
-                                                        case (int)Settings.UpdateUser:
-                                                            break;
+                                                        switch (optionNumber2)
+                                                        {
+                                                            case (int)Settings.UpdateUser:
+                                                                try
+                                                                {
+                                                                    User? user = context.Users.FirstOrDefault(u => u.URegistr == true);
+                                                                    int userId = user.Id;
+                                                                    string passwordd = user.Password;
+                                                                    Console.WriteLine("Enter new username:");
+                                                                    string userName = Console.ReadLine();
+                                                                    Console.WriteLine("Enter new password:");
+                                                                    string newPassword = Console.ReadLine();
+                                                                    Console.WriteLine("Enter new email:");
+                                                                    string newEmail = Console.ReadLine();
+                                                                    userServices.UpdateUser(userId, passwordd, userName, newPassword, newEmail);
+                                                                    Console.ForegroundColor = ConsoleColor.Green;
+                                                                    Console.WriteLine("--------------------------------");
+                                                                    Console.WriteLine("      Process is successful     ");
+                                                                    Console.WriteLine("--------------------------------");
+                                                                    Console.ResetColor();
+
+
+                                                                }
+                                                                catch (Exception ex)
+                                                                {
+
+                                                                    Console.ForegroundColor = ConsoleColor.Red;
+                                                                    Console.WriteLine("--------------------------------");
+                                                                    Console.WriteLine(ex.Message);
+                                                                    Console.WriteLine("--------------------------------");
+                                                                    Console.ResetColor();
+                                                                    goto Settings;
+                                                                }
+                                                                break;
+                                                            case (int)Settings.UpdateUserDetails:
+                                                                try
+                                                                {
+                                                                    User? user = context.Users.FirstOrDefault(u => u.URegistr == true);
+                                                                    int userId = user.Id;                                                                   
+                                                                    Console.WriteLine("Enter new phone number:");
+                                                                    string newPhone = Console.ReadLine();
+                                                                    Console.WriteLine("Enter new delivery addres:");
+                                                                    string newdeliveryAdd = Console.ReadLine();
+                                                                    userServices.UpdateUserDetails(userId, newPhone, newdeliveryAdd);
+                                                                    Console.ForegroundColor = ConsoleColor.Green;
+                                                                    Console.WriteLine("--------------------------------");
+                                                                    Console.WriteLine("      Process is successful     ");
+                                                                    Console.WriteLine("--------------------------------");
+                                                                    Console.ResetColor();
+
+
+                                                                }
+                                                                catch (Exception ex)
+                                                                {
+
+                                                                    Console.ForegroundColor = ConsoleColor.Red;
+                                                                    Console.WriteLine("--------------------------------");
+                                                                    Console.WriteLine(ex.Message);
+                                                                    Console.WriteLine("--------------------------------");
+                                                                    Console.ResetColor();
+                                                                    goto Settings;
+                                                                }
+
+                                                                break;
+                                                            case (int)Settings.DeleteWallet:
+                                                                try
+                                                                {
+
+                                                                }
+                                                                catch (Exception ex)
+                                                                {
+
+                                                                    throw;
+                                                                }
+                                                                break;
+
+                                                        }
                                                     }
                                                 }
                                             }
@@ -324,10 +412,11 @@ Beginning:
                                                 Console.WriteLine(ex.Message);
                                                 Console.WriteLine("--------------------------------");
                                                 Console.ResetColor();
-                                                isContinue1 = false;
-                                                goto Beginning;
 
+                                                goto Beginning;
                                             }
+                                            isContinue1 = false;
+                                            //goto Beginning;
 
                                             break;
 
