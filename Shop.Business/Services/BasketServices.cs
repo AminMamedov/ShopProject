@@ -89,9 +89,6 @@ public class BasketServices : IBasketServices
                     {
                         if (count > bp.ProductCount) throw new MoreThanBasProCountException($"This product's count in your basket = {bp.ProductCount}");
                         {
-                            bp.ProductCount = bp.ProductCount - count;
-                            wal.CardBalance = wal.CardBalance - (count * pro.Price);
-                            pro.ProductCount = pro.ProductCount - count;
                             Invoice invoice = new()
                             {
                                 UserId = userId,
@@ -100,15 +97,19 @@ public class BasketServices : IBasketServices
                                 TotalPrice = count * pro.Price,
                                 CreateTime = DateTime.Now
                             };
+                            context.SaveChanges();
                             context.Invoices.Add(invoice);
                             ProductInvoice productInvoice = new()
                             {
                                 ProductId = productId,
-                                InvoiceId = invoice.Id,
+                                InvoiceId = context.Invoices.FirstOrDefault(i => i.Id == invoice.Id).Id,
                                 ProductCount = count,
                                 Price = invoice.TotalPrice
 
                             };
+                            bp.ProductCount = bp.ProductCount - count;
+                            wal.CardBalance = wal.CardBalance - (count * pro.Price);
+                            pro.ProductCount = pro.ProductCount - count;
                             context.ProductInvoices.Add(productInvoice);
                             context.SaveChanges();
 

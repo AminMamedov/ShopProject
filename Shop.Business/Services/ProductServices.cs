@@ -62,10 +62,10 @@ public class ProductServices : IProductServices
         var us = context.Users.Find(userId);
         var bas = context.Baskets.FirstOrDefault(b => b.UserId == userId);
         if (bas is null) throw new DoesNotExistException("This user doesn't have any basket");
-        if (proCount > bas.ProductCount) throw new MoreThanBasProCountException($"This product's count in your basket  = {bas.ProductCount}");
         if (us == null) throw new NotFiniteNumberException($"User with Id :{userId} not found");
         var bp = context.BasketProducts.FirstOrDefault(bp => bp.ProductId == productId && bp.BasketID == bas.Id);
         if (bp is null) throw new DoesNotExistException($"Product with Id :{productId} doesn't exist in your basket");
+        if (proCount > bp.ProductCount) throw new MoreThanBasProCountException($"This product's count in your basket  = {bp.ProductCount}");
         if (us.URegistr == true)
         {
             bas.ProductCount = bas.ProductCount - proCount;
@@ -74,8 +74,8 @@ public class ProductServices : IProductServices
             if (bas.ProductCount == 0)
             {
                 context.BasketProducts.Remove(bp);
-                context.SaveChanges();
             }
+                context.SaveChanges();
         }
     }
 

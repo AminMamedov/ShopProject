@@ -17,7 +17,7 @@ ShopDbContext context = new ShopDbContext();
 bool isContinue = true;
 while (isContinue)
 {
-    Beginning:
+Beginning:
     Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.WriteLine("Choose the option:");
     Console.ResetColor();
@@ -35,7 +35,7 @@ while (isContinue)
 
     if (isInt == true)
     {
-        if (optionNumber >= 0 && optionNumber <= 25)
+        if (optionNumber >= 0 && optionNumber <= 3)
         {
             switch (optionNumber)
             {
@@ -54,276 +54,284 @@ while (isContinue)
                         Console.WriteLine("             Welcome!           ");
                         Console.WriteLine("--------------------------------");
                         Console.ResetColor();
-                        
-                        Start:
-                        Console.ForegroundColor = ConsoleColor.DarkYellow;
-                        Console.WriteLine("Choose the option:");
-                        Console.ResetColor();
-                        Console.ForegroundColor = ConsoleColor.DarkCyan;
-                        Console.WriteLine(
-                                         "-------------UserMethods--------------\n" +
-                                         " 1 - Show all products\n" +
-                                         " 2 - Show products in basket\n" +
-                                         " 3 - Add product to basket\n" +
-                                         " 4 - Delete product from basket\n" +
-                                         " 5 - Show wallets\n" +
-                                         " 6 - Add new wallet\n" +
-                                         " 7 - Buy product\n" +
-                                         " 8 - Show invoices\n" +
-                                         " 9 - LogOut\n" +
-                                         "----------------------------------");
-                        string? option1 = Console.ReadLine();
-                        int optionNumber1;
-                        bool isInt1 = int.TryParse(option1, out optionNumber1);
-                        if (isInt1 == true)
-                        {
-                            if (optionNumber1 >= 0 && optionNumber1 <= 25)
-                            {
 
-                                switch (optionNumber1)
+                        bool isContinue1 = true;
+                        while (isContinue)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkYellow;
+                            Console.WriteLine("Choose the option:");
+                            Console.ResetColor();
+                            Console.ForegroundColor = ConsoleColor.DarkCyan;
+                            Console.WriteLine(
+                                             "-------------UserMethods--------------\n" +
+                                             " 1 - Show all products\n" +
+                                             " 2 - Show products in basket\n" +
+                                             " 3 - Add product to basket\n" +
+                                             " 4 - Delete product from basket\n" +
+                                             " 5 - Show wallets\n" +
+                                             " 6 - Add new wallet\n" +
+                                             " 7 - Buy product\n" +
+                                             " 8 - Show invoices\n" +
+                                             " 9 - LogOut\n" +
+                                             "----------------------------------");
+
+                        Start:
+                            string? option1 = Console.ReadLine();
+                            int optionNumber1;
+                            bool isInt1 = int.TryParse(option1, out optionNumber1);
+                            if (isInt1 == true)
+                            {
+                                if (optionNumber1 >= 0 && optionNumber1 <= 25)
                                 {
 
-                                    case (int)UserMethods.ShowAllProducts:
-                                        productServices.ShowAllProducts();
-                                        Console.ForegroundColor = ConsoleColor.Green;
-                                        Console.WriteLine("--------------------------------");
-                                        Console.WriteLine("      Process is successful     ");
-                                        Console.WriteLine("--------------------------------");
-                                        Console.ResetColor();
-                                        break;
-                                    case (int)UserMethods.ShowBasketProducts:
+                                    switch (optionNumber1)
+                                    {
 
-                                        try
-                                        {
-                                        User? user = context.Users.FirstOrDefault(u => u.URegistr == true);
-                                        int userId = user.Id;
-                                        basketServices.ShowBasketProducts(userId);
-                                            Console.ForegroundColor = ConsoleColor.Green;
-                                            Console.WriteLine("--------------------------------");
-                                            Console.WriteLine("      Process is successful     ");
-                                            Console.WriteLine("--------------------------------");
-                                            Console.ResetColor();
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            Console.ForegroundColor = ConsoleColor.Red;
-                                            Console.WriteLine("--------------------------------");
-                                            Console.WriteLine(ex.Message);
-                                            Console.WriteLine("--------------------------------");
-                                            Console.ResetColor();
-                                            goto Start;
-
-                                        }
-                                        break;
-                                    case (int)UserMethods.AddProductToBasket:
-                                        try
-                                        {
-                                            
-                                            User? user = context.Users.FirstOrDefault(u => u.URegistr == true);
-                                            int userId = user.Id;
+                                        case (int)UserMethods.ShowAllProducts:
                                             productServices.ShowAllProducts();
-                                            Console.WriteLine("Enter product id:");
-                                            int productId = Convert.ToInt32(Console.ReadLine());
-                                            Console.WriteLine("Enter product count:");
-                                            var pro = context.Products.Find(productId);
-                                            Console.WriteLine($"The product's count in stock ={pro.ProductCount}");
-                                            int proCount = Convert.ToInt32(Console.ReadLine());
-                                            productServices.AddProductToBasket(productId, userId, proCount);
                                             Console.ForegroundColor = ConsoleColor.Green;
                                             Console.WriteLine("--------------------------------");
                                             Console.WriteLine("      Process is successful     ");
                                             Console.WriteLine("--------------------------------");
                                             Console.ResetColor();
+                                            break;
 
-                                        }
-                                        catch (Exception ex)
-                                        {
+                                        case (int)UserMethods.ShowBasketProducts:
 
-                                            Console.ForegroundColor = ConsoleColor.Red;
-                                            Console.WriteLine("--------------------------------");
-                                            Console.WriteLine(ex.Message);
-                                            Console.WriteLine("--------------------------------");
-                                            Console.ResetColor();
-                                            goto Start;
-                                        }
-                                        break;
-                                    case (int)UserMethods.DeleteProductFromBasket:
-                                        try
-                                        {
-                                            User? user = context.Users.FirstOrDefault(u => u.URegistr == true);
-                                            int userId = user.Id;
-                                            productServices.ShowAllProducts();
-                                            Console.WriteLine("Enter product id:");
-                                            int productId = Convert.ToInt32(Console.ReadLine());
-                                            Console.WriteLine("Enter product count:");
-                                            var bas = context.Baskets.FirstOrDefault(b=>b.UserId == userId);
-                                            Console.WriteLine($"The product's count in basket ={bas.ProductCount}");
-                                            int proCount = Convert.ToInt32(Console.ReadLine());
-                                            productServices.AddProductToBasket(productId, userId, proCount);
-                                            Console.ForegroundColor = ConsoleColor.Green;
-                                            Console.WriteLine("--------------------------------");
-                                            Console.WriteLine("      Process is successful     ");
-                                            Console.WriteLine("--------------------------------");
-                                            Console.ResetColor();
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            Console.ForegroundColor = ConsoleColor.Red;
-                                            Console.WriteLine("--------------------------------");
-                                            Console.WriteLine(ex.Message);
-                                            Console.WriteLine("--------------------------------");
-                                            Console.ResetColor();
-                                            goto Start;
-
-                                        }
-                                        break;
-                                    case (int)UserMethods.GetUserWallets:
-                                        try
-                                        {
-                                            User? user = context.Users.FirstOrDefault(u => u.URegistr == true);
-                                            int userId = user.Id;
-                                            userServices.GetUserWallets(userId);
-                                            Console.ForegroundColor = ConsoleColor.Green;
-                                            Console.WriteLine("--------------------------------");
-                                            Console.WriteLine("      Process is successful     ");
-                                            Console.WriteLine("--------------------------------");
-                                            Console.ResetColor();
-
-                                        }
-                                        catch (Exception ex)
-                                        {
-
-                                            Console.ForegroundColor = ConsoleColor.Red;
-                                            Console.WriteLine("--------------------------------");
-                                            Console.WriteLine(ex.Message);
-                                            Console.WriteLine("--------------------------------");
-                                            Console.ResetColor();
-                                            goto Start;
-                                        }
-                                        break;
-                                    case (int)UserMethods.AddWallet:
-                                        try
-                                        {
-                                            User? user = context.Users.FirstOrDefault(u => u.URegistr == true);
-                                            int userId = user.Id;
-                                            Console.WriteLine("Enter card number:");
-                                            string cardNumber = Console.ReadLine();
-                                            Console.WriteLine("Enter card balance:");
-                                            decimal cardBalance = Convert.ToDecimal(cardNumber);
-                                            walletServices.AddWallet(userId, cardNumber, cardBalance);
-                                            Console.ForegroundColor = ConsoleColor.Green;
-                                            Console.WriteLine("--------------------------------");
-                                            Console.WriteLine("      Process is successful     ");
-                                            Console.WriteLine("--------------------------------");
-                                            Console.ResetColor();
-                                        }
-                                        catch (Exception ex)
-                                        {
-
-                                            Console.ForegroundColor = ConsoleColor.Red;
-                                            Console.WriteLine("--------------------------------");
-                                            Console.WriteLine(ex.Message);
-                                            Console.WriteLine("--------------------------------");
-                                            Console.ResetColor();
-                                            goto Start;
-                                        }
-                                        break;
-                                    case (int)UserMethods.BuyProduct:
-                                        try
-                                        {
-                                            User? user = context.Users.FirstOrDefault(u => u.URegistr == true);
-                                            int userId = user.Id;
-                                            Console.WriteLine("Enter product id:");
-                                            basketServices.ShowBasketProducts(userId);
-                                            int productId = Convert.ToInt32(Console.ReadLine());
-                                            Console.WriteLine("Enter wallet Id:");
-                                            userServices.GetUserWallets(userId);
-                                            int walletId = Convert.ToInt32(Console.ReadLine());
-                                            Console.WriteLine("Enter product count :");
-                                            int proCount = Convert.ToInt32(Console.ReadLine());
-                                            basketServices.BuyProduct(userId, productId, walletId, proCount);
-                                            Console.ForegroundColor = ConsoleColor.Green;
-                                            Console.WriteLine("--------------------------------");
-                                            Console.WriteLine("      Process is successful     ");
-                                            Console.WriteLine("--------------------------------");
-                                            Console.ResetColor();
-                                        }
-                                        catch (Exception ex)
-                                        {
-
-                                            Console.ForegroundColor = ConsoleColor.Red;
-                                            Console.WriteLine("--------------------------------");
-                                            Console.WriteLine(ex.Message);
-                                            Console.WriteLine("--------------------------------");
-                                            Console.ResetColor();
-                                            goto Start;
-                                        }
-                                        break;
-                                    case (int)UserMethods.ShowUserInvoices:
-                                        try
-                                        {
-                                            User? user = context.Users.FirstOrDefault(u => u.URegistr == true);
-                                            int userId = user.Id;
-                                            invoiceServices.ShowUserInvoices(userId);
-                                            Console.ForegroundColor = ConsoleColor.Green;
-                                            Console.WriteLine("--------------------------------");
-                                            Console.WriteLine("      Process is successful     ");
-                                            Console.WriteLine("--------------------------------");
-                                            Console.ResetColor();
-
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            Console.ForegroundColor = ConsoleColor.Red;
-                                            Console.WriteLine("--------------------------------");
-                                            Console.WriteLine(ex.Message);
-                                            Console.WriteLine("--------------------------------");
-                                            Console.ResetColor();
-                                            goto Start;
-
-                                        }
-                                        break;
-                                    case (int)UserMethods.GoToSettings:
-
-                                        string? option2 = Console.ReadLine();
-                                        int optionNumber2;
-                                        bool isInt2 = int.TryParse(option2, out optionNumber2);
-                                        if (isInt2 == true)
-                                        {
-                                            if(optionNumber2 >= 0 && optionNumber2 <= 25)
+                                            try
                                             {
-                                                switch(optionNumber2)
+                                                User? user = context.Users.FirstOrDefault(u => u.URegistr == true);
+                                                int userId = user.Id;
+                                                basketServices.ShowBasketProducts(userId);
+                                                Console.ForegroundColor = ConsoleColor.Green;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine("      Process is successful     ");
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Console.ForegroundColor = ConsoleColor.Red;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine(ex.Message);
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                                goto Start;
+
+                                            }
+                                            break;
+                                        case (int)UserMethods.AddProductToBasket:
+                                            try
+                                            {
+
+                                                User? user = context.Users.FirstOrDefault(u => u.URegistr == true);
+                                                int userId = user.Id;
+                                                productServices.ShowAllProducts();
+                                                Console.WriteLine("Enter product id:");
+                                                int productId = Convert.ToInt32(Console.ReadLine());
+                                                Console.WriteLine("Enter product count:");
+                                                var pro = context.Products.Find(productId);
+                                                Console.WriteLine($"The product's count in stock ={pro.ProductCount}");
+                                                int proCount = Convert.ToInt32(Console.ReadLine());
+                                                productServices.AddProductToBasket(productId, userId, proCount);
+                                                Console.ForegroundColor = ConsoleColor.Green;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine("      Process is successful     ");
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+
+                                            }
+                                            catch (Exception ex)
+                                            {
+
+                                                Console.ForegroundColor = ConsoleColor.Red;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine(ex.Message);
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                                goto Start;
+                                            }
+                                            break;
+                                        case (int)UserMethods.DeleteProductFromBasket:
+                                            try
+                                            {
+                                                User? user = context.Users.FirstOrDefault(u => u.URegistr == true);
+                                                int userId = user.Id;
+                                                basketServices.ShowBasketProducts(userId);
+                                                Console.WriteLine("Enter product id:");
+                                                int productId = Convert.ToInt32(Console.ReadLine());
+                                                Console.WriteLine("Enter product count:");
+                                                var bas = context.Baskets.FirstOrDefault(b => b.UserId == userId);
+                                                var bp = context.BasketProducts.FirstOrDefault(bp => bp.ProductId == productId && bp.BasketID == bas.Id);
+                                                Console.WriteLine($"The product's count in basket ={bp.ProductCount}");
+                                                int proCount = Convert.ToInt32(Console.ReadLine());
+                                                productServices.DeleteProductFromBasket(productId, userId, proCount);
+                                                Console.ForegroundColor = ConsoleColor.Green;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine("      Process is successful     ");
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Console.ForegroundColor = ConsoleColor.Red;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine(ex.Message);
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                                goto Start;
+
+                                            }
+                                            break;
+                                        case (int)UserMethods.GetUserWallets:
+                                            try
+                                            {
+                                                User? user = context.Users.FirstOrDefault(u => u.URegistr == true);
+                                                int userId = user.Id;
+                                                userServices.GetUserWallets(userId);
+                                                Console.ForegroundColor = ConsoleColor.Green;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine("      Process is successful     ");
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+
+                                            }
+                                            catch (Exception ex)
+                                            {
+
+                                                Console.ForegroundColor = ConsoleColor.Red;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine(ex.Message);
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                                goto Start;
+                                            }
+                                            break;
+                                        case (int)UserMethods.AddWallet:
+                                            try
+                                            {
+                                                User? user = context.Users.FirstOrDefault(u => u.URegistr == true);
+                                                int userId = user.Id;
+                                                Console.WriteLine("Enter card number:");
+                                                string cardNumber = Console.ReadLine();
+                                                Console.WriteLine("Enter card balance:");
+                                                decimal cardBalance = Convert.ToDecimal(Console.ReadLine());
+                                                walletServices.AddWallet(userId, cardNumber, cardBalance);
+                                                Console.ForegroundColor = ConsoleColor.Green;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine("      Process is successful     ");
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                            }
+                                            catch (Exception ex)
+                                            {
+
+                                                Console.ForegroundColor = ConsoleColor.Red;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine(ex.Message);
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                                goto Start;
+                                            }
+                                            break;
+                                        case (int)UserMethods.BuyProduct:
+                                            try
+                                            {
+                                                User? user = context.Users.FirstOrDefault(u => u.URegistr == true);
+                                                int userId = user.Id;
+                                                Console.WriteLine("Enter product id:");
+                                                basketServices.ShowBasketProducts(userId);
+                                                int productId = Convert.ToInt32(Console.ReadLine());
+                                                Console.WriteLine("Enter wallet Id:");
+                                                userServices.GetUserWallets(userId);
+                                                int walletId = Convert.ToInt32(Console.ReadLine());
+                                                Console.WriteLine("Enter product count :");
+                                                int proCount = Convert.ToInt32(Console.ReadLine());
+                                                basketServices.BuyProduct(userId, productId, walletId, proCount);
+                                                Console.ForegroundColor = ConsoleColor.Green;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine("      Process is successful     ");
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                            }
+                                            catch (Exception ex)
+                                            {
+
+                                                Console.ForegroundColor = ConsoleColor.Red;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine(ex.Message);
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                                goto Start;
+                                            }
+                                            break;
+                                        case (int)UserMethods.ShowUserInvoices:
+                                            try
+                                            {
+                                                User? user = context.Users.FirstOrDefault(u => u.URegistr == true);
+                                                int userId = user.Id;
+                                                invoiceServices.ShowUserInvoices(userId);
+                                                Console.ForegroundColor = ConsoleColor.Green;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine("      Process is successful     ");
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Console.ForegroundColor = ConsoleColor.Red;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine(ex.Message);
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                                goto Start;
+
+                                            }
+                                            break;
+                                        case (int)UserMethods.GoToSettings:
+
+                                            string? option2 = Console.ReadLine();
+                                            int optionNumber2;
+                                            bool isInt2 = int.TryParse(option2, out optionNumber2);
+                                            if (isInt2 == true)
+                                            {
+                                                if (optionNumber2 >= 0 && optionNumber2 <= 25)
                                                 {
-                                                    case (int)Settings.UpdateUser:
-                                                        break;
+                                                    switch (optionNumber2)
+                                                    {
+                                                        case (int)Settings.UpdateUser:
+                                                            break;
+                                                    }
                                                 }
                                             }
-                                        }
-                                        break;
-                                    case (int)UserMethods.LogOut:
-                                        try
-                                        {
-                                            userServices.LogOut();
-                                            Console.ForegroundColor = ConsoleColor.Green;
-                                            Console.WriteLine("--------------------------------");
-                                            Console.WriteLine("      See you later :)    ");
-                                            Console.WriteLine("--------------------------------");
-                                            Console.ResetColor();
+                                            break;
+                                        case (int)UserMethods.LogOut:
+                                            try
+                                            {
+                                                userServices.LogOut();
+                                                Console.ForegroundColor = ConsoleColor.Green;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine("      See you later :)    ");
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
 
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            Console.ForegroundColor = ConsoleColor.Red;
-                                            Console.WriteLine("--------------------------------");
-                                            Console.WriteLine(ex.Message);
-                                            Console.WriteLine("--------------------------------");
-                                            Console.ResetColor();
-                                            goto Beginning;
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Console.ForegroundColor = ConsoleColor.Red;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine(ex.Message);
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                                isContinue1 = false;
+                                                goto Beginning;
 
-                                        }
+                                            }
 
-                                       break;
+                                            break;
 
+                                    }
                                 }
                             }
 
