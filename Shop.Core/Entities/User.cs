@@ -16,6 +16,7 @@ public class User : BaseEntities
     public bool URegistr { get; set; } = false;
     public bool ARegistr { get; set; } = false;
     public bool IsAdminUser { get; set; } = false;
+    public bool IsDeleted {  get; set; } = false;
     public Basket Basket { get; set; }
     public ICollection<Wallet> Wallet { get; set; }
     public ICollection<Invoice> Invoice { get; set; }

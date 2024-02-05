@@ -29,17 +29,26 @@ public class ProductServices : IProductServices
         if (us == null) throw new NotFiniteNumberException($"User with Id :{userId} not found");
         if (us.URegistr == true)
         {
-            BasketProduct basketProduct = new()
+            BasketProduct? basproduct = context.BasketProducts.FirstOrDefault(b => b.ProductId == productId && b.BasketID == bas.Id);
+            if (basproduct is not null)
             {
-                ProductId = productId,
-                BasketID = bas.Id,
-                ProductCount = proCount,
+                basproduct.ProductCount = basproduct.ProductCount + proCount;
+            }
+            else
+            {
+                BasketProduct basketProduct = new()
+                {
+                    ProductId = productId,
+                    BasketID = bas.Id,
+                    ProductCount = proCount,
 
-            };
+                };
+                context.BasketProducts.Add(basketProduct);
+
+            }
             bas.ProductCount = bas.ProductCount + proCount;
-            
 
-            context.BasketProducts.Add(basketProduct);
+
             context.SaveChanges();
         }
     }
@@ -55,12 +64,12 @@ public class ProductServices : IProductServices
         if (bas is null) throw new DoesNotExistException("This user doesn't have any basket");
         if (proCount > bas.ProductCount) throw new MoreThanBasProCountException($"This product's count in your basket  = {bas.ProductCount}");
         if (us == null) throw new NotFiniteNumberException($"User with Id :{userId} not found");
-        var bp = context.BasketProducts.FirstOrDefault(bp => bp.ProductId == productId);
+        var bp = context.BasketProducts.FirstOrDefault(bp => bp.ProductId == productId && bp.BasketID == bas.Id);
         if (bp is null) throw new DoesNotExistException($"Product with Id :{productId} doesn't exist in your basket");
         if (us.URegistr == true)
         {
             bas.ProductCount = bas.ProductCount - proCount;
-            
+
             bp.ProductCount = bp.ProductCount - proCount;
             if (bas.ProductCount == 0)
             {
@@ -70,27 +79,35 @@ public class ProductServices : IProductServices
         }
     }
 
-    
+
 
     public void ShowAllProducts()
     {
         foreach (var product in context.Products)
         {
-            //var dis = context.Discounts.Find(product.DiscountId);
+            if (product.DiscountId is null && product.IsActive == true)
+            {
+                Console.WriteLine($"Product Id :{product.Id} ; product name:{product.Name} ; product price: {product.Price} ; product count:{product.ProductCount}; ");
+
+            }
+            if (product.DiscountId is not null && product.IsActive == true)
+            {
+                Console.WriteLine($"Product Id :{product.Id} ; product name:{product.Name} ; product price: {product.Price} ; product count:{product.ProductCount}; product discountId:{product.DiscountId}");
+
+            }
 
 
-            Console.WriteLine($"Product Id :{product.Id} ; product name:{product.Name} ; product price: {product.Price}");
 
         }
     }
     #region adminUser Methods
-    
 
-    
 
-    
 
-    
+
+
+
+
 
 
     #endregion

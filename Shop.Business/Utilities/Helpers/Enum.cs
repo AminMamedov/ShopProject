@@ -6,21 +6,27 @@ public enum Register
     LoginAsAdmin,
     CreateAccount
 }
+public enum Settings
+{
+    UpdateUser=1,
+    UpdateUserDetails,
+    DeleteWallet,
+    DeleteUser
+}
 public enum UserMethods
 {
-    DeleteUser=1,
-    UpdateUser,
-    UpdateUserDetails,
-    GetUserWallets,
-    AddWallet,
-    DeleteWallet,
+    ShowAllProducts=1,
     ShowBasketProducts,
-    BuyProduct,
-    ShowAllProducts,
     AddProductToBasket,
     DeleteProductFromBasket,
+    GetUserWallets,
+    AddWallet,
+    BuyProduct,
     ShowUserInvoices,
+    GoToSettings,
     LogOut
+    
+  
 }
 public enum AdminMethods
 {

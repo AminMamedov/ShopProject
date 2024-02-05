@@ -80,7 +80,8 @@ public class BasketServices : IBasketServices
                 var bp = context.BasketProducts.FirstOrDefault(bp => bp.ProductId == productId && bp.BasketID == bas.Id);
                 if (bp is null) throw new DoesNotExistException($"Product with Id :{productId} doent't exist in your basket");
                 var pro = context.Products.Find(productId);
-                if (pro is null) throw new DoesNotExistException($"product with Id :{productId} out of stock");
+                if (pro is null) throw new DoesNotExistException($"product with Id :{productId} doesn't exist");
+                if (pro.ProductCount == 0 ) throw new DoesNotExistException($"product with Id :{productId} out of stock");
                 {
                     var wal = context.Wallets.Find(walletId);
                     if (wal is null) throw new DoesNotExistException($"Wallet with Id:{walletId} doesn't exist");

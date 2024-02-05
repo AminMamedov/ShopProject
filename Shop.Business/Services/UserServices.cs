@@ -51,7 +51,7 @@ public class UserServices : IUserServices
         var u1 = context.Users.Find(userId);
         if (u1 is null) throw new NotFoundException($"User with id:{userId} was not found.");
         if (u1.Password != password) throw new IncorrectExeption("Incorrect password,try again");
-        context.Users.Remove(u1);
+        u1.IsDeleted = true;
         context.SaveChanges();
     }
 
