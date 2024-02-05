@@ -203,12 +203,83 @@ while (isContinue)
                                     case (int)UserMethods.AddWallet:
                                         try
                                         {
-
+                                            User? user = context.Users.FirstOrDefault(u => u.URegistr == true);
+                                            int userId = user.Id;
+                                            Console.WriteLine("Enter card number:");
+                                            string cardNumber = Console.ReadLine();
+                                            Console.WriteLine("Enter card balance:");
+                                            decimal cardBalance = Convert.ToDecimal(cardNumber);
+                                            walletServices.AddWallet(userId, cardNumber, cardBalance);
+                                            Console.ForegroundColor = ConsoleColor.Green;
+                                            Console.WriteLine("--------------------------------");
+                                            Console.WriteLine("      Process is successful     ");
+                                            Console.WriteLine("--------------------------------");
+                                            Console.ResetColor();
                                         }
                                         catch (Exception ex)
                                         {
 
-                                            throw;
+                                            Console.ForegroundColor = ConsoleColor.Red;
+                                            Console.WriteLine("--------------------------------");
+                                            Console.WriteLine(ex.Message);
+                                            Console.WriteLine("--------------------------------");
+                                            Console.ResetColor();
+                                            goto Start;
+                                        }
+                                        break;
+                                    case (int)UserMethods.BuyProduct:
+                                        try
+                                        {
+                                            User? user = context.Users.FirstOrDefault(u => u.URegistr == true);
+                                            int userId = user.Id;
+                                            Console.WriteLine("Enter product id:");
+                                            basketServices.ShowBasketProducts(userId);
+                                            int productId = Convert.ToInt32(Console.ReadLine());
+                                            Console.WriteLine("Enter wallet Id:");
+                                            userServices.GetUserWallets(userId);
+                                            int walletId = Convert.ToInt32(Console.ReadLine());
+                                            Console.WriteLine("Enter product count :");
+                                            int proCount = Convert.ToInt32(Console.ReadLine());
+                                            basketServices.BuyProduct(userId, productId, walletId, proCount);
+                                            Console.ForegroundColor = ConsoleColor.Green;
+                                            Console.WriteLine("--------------------------------");
+                                            Console.WriteLine("      Process is successful     ");
+                                            Console.WriteLine("--------------------------------");
+                                            Console.ResetColor();
+                                        }
+                                        catch (Exception ex)
+                                        {
+
+                                            Console.ForegroundColor = ConsoleColor.Red;
+                                            Console.WriteLine("--------------------------------");
+                                            Console.WriteLine(ex.Message);
+                                            Console.WriteLine("--------------------------------");
+                                            Console.ResetColor();
+                                            goto Start;
+                                        }
+                                        break;
+                                    case (int)UserMethods.ShowUserInvoices:
+                                        try
+                                        {
+                                            User? user = context.Users.FirstOrDefault(u => u.URegistr == true);
+                                            int userId = user.Id;
+                                            invoiceServices.ShowUserInvoices(userId);
+                                            Console.ForegroundColor = ConsoleColor.Green;
+                                            Console.WriteLine("--------------------------------");
+                                            Console.WriteLine("      Process is successful     ");
+                                            Console.WriteLine("--------------------------------");
+                                            Console.ResetColor();
+
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Console.ForegroundColor = ConsoleColor.Red;
+                                            Console.WriteLine("--------------------------------");
+                                            Console.WriteLine(ex.Message);
+                                            Console.WriteLine("--------------------------------");
+                                            Console.ResetColor();
+                                            goto Start;
+
                                         }
                                         break;
 
