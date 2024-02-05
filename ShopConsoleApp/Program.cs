@@ -17,6 +17,7 @@ ShopDbContext context = new ShopDbContext();
 bool isContinue = true;
 while (isContinue)
 {
+    Beginning:
     Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.WriteLine("Choose the option:");
     Console.ResetColor();
@@ -282,6 +283,46 @@ while (isContinue)
 
                                         }
                                         break;
+                                    case (int)UserMethods.GoToSettings:
+
+                                        string? option2 = Console.ReadLine();
+                                        int optionNumber2;
+                                        bool isInt2 = int.TryParse(option2, out optionNumber2);
+                                        if (isInt2 == true)
+                                        {
+                                            if(optionNumber2 >= 0 && optionNumber2 <= 25)
+                                            {
+                                                switch(optionNumber2)
+                                                {
+                                                    case (int)Settings.UpdateUser:
+                                                        break;
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    case (int)UserMethods.LogOut:
+                                        try
+                                        {
+                                            userServices.LogOut();
+                                            Console.ForegroundColor = ConsoleColor.Green;
+                                            Console.WriteLine("--------------------------------");
+                                            Console.WriteLine("      See you later :)    ");
+                                            Console.WriteLine("--------------------------------");
+                                            Console.ResetColor();
+
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Console.ForegroundColor = ConsoleColor.Red;
+                                            Console.WriteLine("--------------------------------");
+                                            Console.WriteLine(ex.Message);
+                                            Console.WriteLine("--------------------------------");
+                                            Console.ResetColor();
+                                            goto Beginning;
+
+                                        }
+
+                                       break;
 
                                 }
                             }
