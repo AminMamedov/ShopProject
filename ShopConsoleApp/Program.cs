@@ -642,7 +642,81 @@ Beginning:
                                                 Console.ResetColor();
                                                 goto AdminMethodss;
                                             }
+                                            break;
+                                        case (int)AdminMethods.ShowAllBaskets:
+                                            try
+                                            {
+                                                adminServices.ShowAllBaskets();
+                                                Console.ForegroundColor = ConsoleColor.Green;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine("      Process is successful     ");
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                            
+                                            }
+                                            catch (Exception ex)
+                                            {
 
+                                                Console.ForegroundColor = ConsoleColor.Red;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine(ex.Message);
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                                goto AdminMethodss;
+                                            }
+                                            break;
+                                        case (int)AdminMethods.CreateProduct:
+                                            try
+                                            {
+                                                Console.WriteLine("Enter product name:");
+                                                string proName = Console.ReadLine();
+                                                Console.WriteLine("Enter product price:");
+                                                decimal price = Convert.ToDecimal(Console.ReadLine());
+                                                Console.WriteLine("Enter discount id:");
+                                                adminServices.ShowAllDiscounts();
+                                                int discountId = Convert.ToInt32(Console.ReadLine());
+                                                Console.WriteLine("Enter product count:");
+                                                int proCount = Convert.ToInt32(Console.ReadLine());
+                                                adminServices.CreateProduct(proName, price, discountId, proCount);
+                                                Console.ForegroundColor = ConsoleColor.Green;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine("      Process is successful     ");
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Console.ForegroundColor = ConsoleColor.Red;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine(ex.Message);
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                                goto AdminMethodss;
+                                            }
+                                            break;
+                                        case (int)AdminMethods.DeleteProduct:
+                                            try
+                                            {
+                                                Console.WriteLine("Enter product Id:");
+                                                adminServices.ShowAllProducts();
+                                                int productId = Convert.ToInt32(Console.ReadLine());
+                                                adminServices.DeleteProduct(productId);
+                                                Console.ForegroundColor = ConsoleColor.Green;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine("      Process is successful     ");
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                            }
+                                            catch (Exception ex)
+                                            {
+
+                                                Console.ForegroundColor = ConsoleColor.Red;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine(ex.Message);
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                                goto AdminMethodss;
+                                            }
                                             break;
                                     }
                                 }

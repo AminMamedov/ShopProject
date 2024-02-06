@@ -109,8 +109,9 @@ public class AdminServices : IAdminServices
             {
                 if (product.DiscountId == discountId)
                 {
+                    decimal perc = (100 - dis.Percentage);
                     product.DiscountId = null;
-                    product.Price = product.Price + (product.Price * dis.Percentage / 100);
+                    product.Price = (product.Price *100)/perc;
 
                 }
             }
