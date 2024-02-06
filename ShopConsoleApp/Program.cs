@@ -572,9 +572,9 @@ Beginning:
                                         case (int)AdminMethods.CreateDiscount:
                                             try
                                             {
-                                                Console.WriteLine( "Enter discount name:");
+                                                Console.WriteLine("Enter discount name:");
                                                 string name = Console.ReadLine();
-                                                Console.WriteLine( "Enter discount percentage:");
+                                                Console.WriteLine("Enter discount percentage:");
                                                 int percentage = Convert.ToInt32(Console.ReadLine());
                                                 adminServices.CreateDiscount(name, percentage);
                                                 Console.ForegroundColor = ConsoleColor.Green;
@@ -597,7 +597,7 @@ Beginning:
                                         case (int)AdminMethods.DisableDiscount:
                                             try
                                             {
-                                                Console.WriteLine( "Enter discount id:");
+                                                Console.WriteLine("Enter discount id:");
                                                 adminServices.ShowAllDiscounts();
                                                 int discountId = Convert.ToInt32(Console.ReadLine());
                                                 Console.ForegroundColor = ConsoleColor.Green;
@@ -652,7 +652,7 @@ Beginning:
                                                 Console.WriteLine("      Process is successful     ");
                                                 Console.WriteLine("--------------------------------");
                                                 Console.ResetColor();
-                                            
+
                                             }
                                             catch (Exception ex)
                                             {
@@ -718,6 +718,34 @@ Beginning:
                                                 goto AdminMethodss;
                                             }
                                             break;
+                                        case (int)AdminMethods.ShowAllProducts:
+                                            adminServices.ShowAllProducts();
+                                            Console.ForegroundColor = ConsoleColor.Green;
+                                            Console.WriteLine("--------------------------------");
+                                            Console.WriteLine("      Process is successful     ");
+                                            Console.WriteLine("--------------------------------");
+                                            Console.ResetColor();
+                                            break;
+                                        case (int)AdminMethods.AdminUserLogout:
+                                            try
+                                            {
+                                                adminServices.AdminUserLogout();
+                                                Console.ForegroundColor = ConsoleColor.Green;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine("      See you later :)    ");
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Console.ForegroundColor = ConsoleColor.Red;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine(ex.Message);
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                                goto Beginning;
+                                            }
+                                            break;
                                     }
                                 }
                             }
@@ -757,6 +785,7 @@ Beginning:
                         Console.WriteLine("  Successfully created.Welcome! ");
                         Console.WriteLine("--------------------------------");
                         Console.ResetColor();
+                        
 
                     }
                     catch (Exception ex)
@@ -767,7 +796,7 @@ Beginning:
                         Console.WriteLine(ex.Message);
                         Console.WriteLine("--------------------------------");
                         Console.ResetColor();
-                        goto case (int)Register.CreateAccount;
+                        goto Beginning;
                     }
                     break;
             }
