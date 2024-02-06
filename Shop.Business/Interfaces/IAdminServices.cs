@@ -12,7 +12,8 @@ public  interface IAdminServices
     #region discount
     void CreateDiscount(string name, int percentage);
     void DisableDiscount(int discountId);
-    void AddDiscountToProduct(int productId, int discountId);
+    void AddDiscountToProduct(int discountId, int productId);
+    void ShowAllDiscounts();
     
 
     #endregion

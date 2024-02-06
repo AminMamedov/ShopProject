@@ -12,7 +12,7 @@ public class AdminServices : IAdminServices
     {
         context = new ShopDbContext();
     }
-    public void AddDiscountToProduct(int productId, int discountId)
+    public void AddDiscountToProduct(int discountId, int productId)
     {
         var us = context.Users.FirstOrDefault(u => u.ARegistr == true);
         if (us is null) throw new NotLoggedInException("Login as Admin user to choose this operation ");
@@ -116,6 +116,18 @@ public class AdminServices : IAdminServices
             }
             context.SaveChanges();
 
+        }
+    }
+    public void ShowAllDiscounts()
+    {
+        var us = context.Users.FirstOrDefault(u => u.ARegistr == true);
+        if (us is null) throw new NotLoggedInException("Login as Admin user to choose this operation ");
+        foreach(var dis in context.Discounts)
+        {
+            if (dis.IsActive == true)
+            {
+                Console.WriteLine($"Discount idL:{dis.Id} ; discount name:{dis.Name} ; discount percentage:{dis.Percentage}");
+            }
         }
     }
 

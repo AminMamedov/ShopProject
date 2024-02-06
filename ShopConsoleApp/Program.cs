@@ -353,7 +353,7 @@ Beginning:
                                                                 try
                                                                 {
                                                                     User? user = context.Users.FirstOrDefault(u => u.URegistr == true);
-                                                                    int userId = user.Id;                                                                   
+                                                                    int userId = user.Id;
                                                                     Console.WriteLine("Enter new phone number:");
                                                                     string newPhone = Console.ReadLine();
                                                                     Console.WriteLine("Enter new delivery addres:");
@@ -430,7 +430,7 @@ Beginning:
                                                             case (int)Settings.Back:
                                                                 isContinue2 = false;
                                                                 goto Start;
-                                                                
+
 
                                                         }
                                                     }
@@ -497,19 +497,156 @@ Beginning:
                         Console.WriteLine("             Welcome!           ");
                         Console.WriteLine("--------------------------------");
                         Console.ResetColor();
-                        switch (optionNumber)
+                        bool isContinueAd = true;
+                        while (isContinueAd == true)
                         {
-                            case (int)AdminMethods.ShowAllUsers:
-                                try
-                                {
 
-                                }
-                                catch (Exception)
+                        AdminMethodss:
+                            Console.ForegroundColor = ConsoleColor.DarkYellow;
+                            Console.WriteLine("Choose the option:");
+                            Console.ResetColor();
+                            Console.ForegroundColor = ConsoleColor.DarkCyan;
+                            Console.WriteLine(
+                                             "----------AdminMethods-----------\n" +
+                                             " 1 - Show all uers\n" +
+                                             " 2 - Show all wallets\n" +
+                                             " 3 - Create discount\n" +
+                                             " 4 - Disable discount\n" +
+                                             " 5 - Add discoount to product\n" +
+                                             " 6 - Show all baskets\n" +
+                                             " 7 - Create product\n" +
+                                             " 8 - Delete product\n" +
+                                             " 9 - Show all products\n" +
+                                             "10 - LogOut\n" +
+                                             "----------------------------------");
+                            string? option3 = Console.ReadLine();
+                            int optionNumber3;
+                            bool isInt3 = int.TryParse(option3, out optionNumber3);
+                            if (isInt3 == true)
+                            {
+                                if (optionNumber3 >= 0 && optionNumber3 <= 10)
                                 {
+                                    switch (optionNumber3)
+                                    {
+                                        case (int)AdminMethods.ShowAllUsers:
+                                            try
+                                            {
+                                                adminServices.ShowAllUsers();
+                                                Console.ForegroundColor = ConsoleColor.Green;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine("      Process is successful     ");
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Console.ForegroundColor = ConsoleColor.Red;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine(ex.Message);
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                                goto AdminMethodss;
+                                            }
+                                            break;
+                                        case (int)AdminMethods.ShowAllWallets:
+                                            try
+                                            {
+                                                adminServices.ShowAllWallets();
+                                                Console.ForegroundColor = ConsoleColor.Green;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine("      Process is successful     ");
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                            }
+                                            catch (Exception ex)
+                                            {
 
-                                    throw;
+                                                Console.ForegroundColor = ConsoleColor.Red;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine(ex.Message);
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                                goto AdminMethodss;
+                                            }
+                                            break;
+                                        case (int)AdminMethods.CreateDiscount:
+                                            try
+                                            {
+                                                Console.WriteLine( "Enter discount name:");
+                                                string name = Console.ReadLine();
+                                                Console.WriteLine( "Enter discount percentage:");
+                                                int percentage = Convert.ToInt32(Console.ReadLine());
+                                                adminServices.CreateDiscount(name, percentage);
+                                                Console.ForegroundColor = ConsoleColor.Green;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine("      Process is successful     ");
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                            }
+                                            catch (Exception ex)
+                                            {
+
+                                                Console.ForegroundColor = ConsoleColor.Red;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine(ex.Message);
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                                goto AdminMethodss;
+                                            }
+                                            break;
+                                        case (int)AdminMethods.DisableDiscount:
+                                            try
+                                            {
+                                                Console.WriteLine( "Enter discount id:");
+                                                adminServices.ShowAllDiscounts();
+                                                int discountId = Convert.ToInt32(Console.ReadLine());
+                                                Console.ForegroundColor = ConsoleColor.Green;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine("      Process is successful     ");
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                            }
+                                            catch (Exception ex)
+                                            {
+
+                                                Console.ForegroundColor = ConsoleColor.Red;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine(ex.Message);
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                                goto AdminMethodss;
+                                            }
+                                            break;
+                                        case (int)AdminMethods.AddDiscountToProduct:
+                                            try
+                                            {
+                                                Console.WriteLine("Enter discount Id:");
+                                                adminServices.ShowAllDiscounts();
+                                                int discountId = Convert.ToInt32(Console.ReadLine());
+                                                Console.WriteLine("Enter product Id:");
+                                                adminServices.ShowAllProducts();
+                                                int productId = Convert.ToInt32(Console.ReadLine());
+                                                Console.ForegroundColor = ConsoleColor.Green;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine("      Process is successful     ");
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                            }
+                                            catch (Exception ex)
+                                            {
+
+                                                Console.ForegroundColor = ConsoleColor.Red;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine(ex.Message);
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                                goto AdminMethodss;
+                                            }
+
+                                            break;
+                                    }
                                 }
-                                break;
+                            }
                         }
                     }
                     catch (Exception ex)
