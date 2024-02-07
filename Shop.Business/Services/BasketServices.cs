@@ -93,9 +93,11 @@ public class BasketServices : IBasketServices
                     var wal = context.Wallets.Find(walletId);
                     if (wal is null) throw new DoesNotExistException($"Wallet with Id:{walletId} doesn't exist");
                     if (wal.UserId != userId) throw new IncorrectExeption($"Wallet with Id:{walletId} doesn' belong to you");
+                    //if(pro.Price*count> wal.CardBalance) throw new 
                     {
                         if (count > bp.ProductCount) throw new MoreThanBasProCountException($"This product's count in your basket = {bp.ProductCount}");
                         {
+                            
                             Invoice invoice = new()
                             {
                                 UserId = userId,
@@ -122,6 +124,7 @@ public class BasketServices : IBasketServices
                             {
                                 context.BasketProducts.Remove(bp);
                             }
+                            
                             wal.CardBalance -= (count * pro.Price);
                             context.SaveChanges();
 

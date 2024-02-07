@@ -46,8 +46,10 @@ public class UserServices : IUserServices
 
     }
 
-    public void DeleteUser(int userId, string password)
+    public void DeleteUser(int? userId, string password)
     {
+        if (string.IsNullOrEmpty(password)) throw new ArgumentNullException();
+        if (userId is null) throw new ArgumentNullException();
         var u1 = context.Users.Find(userId);
         if (u1 is null) throw new NotFoundException($"User with id:{userId} was not found.");
         if (u1.Password != password) throw new IncorrectExeption("Incorrect password,try again");
@@ -55,8 +57,12 @@ public class UserServices : IUserServices
         context.SaveChanges();
     }
 
-    public void UpdateUser(int userId, string password, string newUname, string newPassword, string newEmail)
+    public void UpdateUser(int? userId, string password, string newUname, string newPassword, string newEmail)
     {
+        if (userId is null) throw new ArgumentNullException();
+        if (string.IsNullOrEmpty(newUname)) throw new ArgumentNullException();
+        if (string.IsNullOrEmpty(newPassword)) throw new ArgumentNullException();
+        if (string.IsNullOrEmpty(newEmail)) throw new ArgumentNullException();
         var u1 = context.Users.Find(userId);
         if (u1 is null) throw new NotFoundException($"User with id:{userId} was not found.");
         if (u1.Password != password) throw new IncorrectExeption("Incorrect password,try again");
@@ -70,8 +76,11 @@ public class UserServices : IUserServices
         }
             context.SaveChanges();
     }
-    public void UpdateUserDetails(int userId, string newPhone, string newDeliveryadd)
+    public void UpdateUserDetails(int? userId, string newPhone, string newDeliveryadd)
     {
+        if (userId is null) throw new ArgumentNullException();
+        if (string.IsNullOrEmpty(newPhone)) throw new ArgumentNullException();
+        if(string.IsNullOrEmpty(newDeliveryadd)) throw new ArgumentNullException();
         var u1 = context.Users.Find(userId);
         if (u1 is null) throw new NotFoundException($"User with id:{userId} was not found.");
         if (u1.URegistr == true)
@@ -82,8 +91,9 @@ public class UserServices : IUserServices
         }
         context.SaveChanges();
     }
-    public void GetUserWallets(int userId)
+    public void GetUserWallets(int? userId)
     {
+        if (userId is null) throw new ArgumentNullException();
         var us = context.Users.Find(userId);
         if (us is not null)
         {

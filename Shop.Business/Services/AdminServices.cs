@@ -12,8 +12,10 @@ public class AdminServices : IAdminServices
     {
         context = new ShopDbContext();
     }
-    public void AddDiscountToProduct(int discountId, int productId)
+    public void UpdateProductDiscount(int? discountId, int? productId)
     {
+        if (discountId is null) throw new ArgumentNullException();
+        if (productId is null) throw new ArgumentNullException();
         var us = context.Users.FirstOrDefault(u => u.ARegistr == true);
         if (us is null) throw new NotLoggedInException("Login as Admin user to choose this operation ");
         else
@@ -22,7 +24,6 @@ public class AdminServices : IAdminServices
             if (pro is null) throw new DoesNotExistException($"Product with Id :{productId} doesn't exist");
             var dis = context.Discounts.Find(discountId);
             if (dis is null) throw new DoesNotExistException($"Discount with Id :{discountId} doesn't exist");
-            if (pro.DiscountId != null) throw new AlreadyExistException($"This product already has a discount");
             if (pro.DiscountId == discountId) throw new AlreadyExistException($"This product already has this discount");
             if (dis.IsActive == false) throw new DoesNotExistException($"Discount with Id :{discountId} disabled");
             pro.DiscountId = discountId;
@@ -88,12 +89,15 @@ public class AdminServices : IAdminServices
             Product product = new()
             {
                 Name = name,
-                Price = price,
+                Price = price ,
                 DiscountId = discountId,
                 ProductCount = proCount,
                 BrandId = brandId,
                 CategoryId = categoryId
             };
+
+                var dis = context.Discounts.Find(discountId);
+            product.Price = price - (price * dis.Percentage) / 100;
             context.Products.Add(product);
             product.IsActive = true;
             context.SaveChanges();
@@ -119,6 +123,25 @@ public class AdminServices : IAdminServices
 
 
     }
+    public void ShowDeactiveProducts()
+    {
+        foreach (var product in context.Products)
+        {
+            if (product.IsActive == false) 
+            {
+                Console.WriteLine($"Product ID :{product.Id} // Product name: {product.Name} // Product price :{product.Price} // Product count :{product.ProductCount}");
+            }
+        }
+    }
+    public void ActivateProduct(int productId)
+    {
+
+        var pro = context.Products.Find(productId);
+        if (pro is null) throw new DoesNotExistException($"Product with id: {productId} doesn't exist");
+        if (pro.IsActive == true) throw new AlreadyActiveException($"Product with Id :{productId} is already active");
+        pro.IsActive = true;
+        context.SaveChanges();
+    }
 
     public void DisableDiscount(int discountId)
     {
@@ -134,7 +157,6 @@ public class AdminServices : IAdminServices
                 if (product.DiscountId == discountId)
                 {
                     decimal perc = (100 - dis.Percentage);
-                    product.DiscountId = null;
                     product.Price = (product.Price * 100) / perc;
 
                 }

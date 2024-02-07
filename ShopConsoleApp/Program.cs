@@ -604,6 +604,7 @@ Beginning:
                                                 Console.WriteLine("Enter discount id:");
                                                 adminServices.ShowAllDiscounts();
                                                 int discountId = Convert.ToInt32(Console.ReadLine());
+                                                adminServices.DisableDiscount(discountId);
                                                 Console.ForegroundColor = ConsoleColor.Green;
                                                 Console.WriteLine("--------------------------------");
                                                 Console.WriteLine("      Process is successful     ");
@@ -630,6 +631,7 @@ Beginning:
                                                 Console.WriteLine("Enter product Id:");
                                                 adminServices.ShowAllProducts();
                                                 int productId = Convert.ToInt32(Console.ReadLine());
+                                                adminServices.UpdateProductDiscount(discountId, productId);
                                                 Console.ForegroundColor = ConsoleColor.Green;
                                                 Console.WriteLine("--------------------------------");
                                                 Console.WriteLine("      Process is successful     ");
