@@ -511,16 +511,16 @@ Beginning:
                             Console.ForegroundColor = ConsoleColor.DarkCyan;
                             Console.WriteLine(
                                              "----------AdminMethods-----------\n" +
-                                             " 1 - Show all uers\n" +
+                                             " 1 - Show all users\n" +
                                              " 2 - Show all wallets\n" +
                                              " 3 - Create discount\n" +
                                              " 4 - Disable discount\n" +
-                                             " 5 - Add discoount to product\n" +
+                                             " 5 - Add discount to product\n" +
                                              " 6 - Show all baskets\n" +
                                              " 7 - Create product\n" +
                                              " 8 - Delete product\n" +
                                              " 9 - Activate product\n" +
-                                             "10 - Activate product\n" +
+                                             "10 - Activate discount\n" +
                                              "11 - Show deactive products\n" +
                                              "12 - Show Deactive discounts\n" +
                                              "13 - Show all products\n" +
@@ -778,7 +778,22 @@ Beginning:
                                                 goto AdminMethodss;
                                             }
                                             break;
-                                        
+                                        case (int)AdminMethods.ShowDeactiveProducts:
+                                            adminServices.ShowDeactiveProducts();
+                                            Console.ForegroundColor = ConsoleColor.Green;
+                                            Console.WriteLine("--------------------------------");
+                                            Console.WriteLine("      Process is successful     ");
+                                            Console.WriteLine("--------------------------------");
+                                            Console.ResetColor();
+                                            break;
+                                        case (int)AdminMethods.ShowDeactiveDiscounts:
+                                            adminServices.ShowDeactiveDiscounts();
+                                            Console.ForegroundColor = ConsoleColor.Green;
+                                            Console.WriteLine("--------------------------------");
+                                            Console.WriteLine("      Process is successful     ");
+                                            Console.WriteLine("--------------------------------");
+                                            Console.ResetColor();
+                                            break;
 
                                         case (int)AdminMethods.ShowAllProducts:
                                             adminServices.ShowAllProducts();
