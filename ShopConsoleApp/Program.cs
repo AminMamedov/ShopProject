@@ -3,6 +3,7 @@ using Shop.Business.Services;
 using Shop.Business.Utilities.Helpers;
 using Shop.Core.Entities;
 using Shop.DataAccess.DataAccess;
+using System.Transactions;
 
 Console.WriteLine("Shop project");
 UserServices userServices = new UserServices();
@@ -518,17 +519,21 @@ Beginning:
                                              " 6 - Show all baskets\n" +
                                              " 7 - Create product\n" +
                                              " 8 - Delete product\n" +
-                                             " 9 - Show all products\n" +
-                                             "10 - Create Category\n" +
-                                             "11- Create Brand\n" +
-                                             "12- LogOut\n" +
+                                             " 9 - Activate product\n" +
+                                             "10 - Activate product\n" +
+                                             "11 - Show deactive products\n" +
+                                             "12 - Show Deactive discounts\n" +
+                                             "13 - Show all products\n" +
+                                             "14 - Create Category\n" +
+                                             "15- Create Brand\n" +
+                                             "16- LogOut\n" +
                                              "----------------------------------");
                             string? option3 = Console.ReadLine();
                             int optionNumber3;
                             bool isInt3 = int.TryParse(option3, out optionNumber3);
                             if (isInt3 == true)
                             {
-                                if (optionNumber3 >= 0 && optionNumber3 <= 12)
+                                if (optionNumber3 >= 0 && optionNumber3 <= 16)
                                 {
                                     switch (optionNumber3)
                                     {
@@ -677,10 +682,7 @@ Beginning:
                                                 Console.WriteLine("Enter product name:");
                                                 string proName = Console.ReadLine();
                                                 Console.WriteLine("Enter product price:");
-                                                decimal price = Convert.ToDecimal(Console.ReadLine());
-                                                Console.WriteLine("Enter discount id:");
-                                                adminServices.ShowAllDiscounts();
-                                                int discountId = Convert.ToInt32(Console.ReadLine());
+                                                decimal price = Convert.ToDecimal(Console.ReadLine());                                                
                                                 Console.WriteLine("Enter product count:");
                                                 int proCount = Convert.ToInt32(Console.ReadLine());
                                                 Console.WriteLine("Enter brand id:");
@@ -689,7 +691,7 @@ Beginning:
                                                 Console.WriteLine("Enter category id:");
                                                 adminServices.ShowAllCategory();
                                                 int categoryId = Convert.ToInt32(Console.ReadLine());
-                                                adminServices.CreateProduct(proName, price, discountId, proCount, brandId, categoryId);
+                                                adminServices.CreateProduct(proName, price,  proCount, brandId, categoryId);
                                                 Console.ForegroundColor = ConsoleColor.Green;
                                                 Console.WriteLine("--------------------------------");
                                                 Console.WriteLine("      Process is successful     ");
@@ -730,6 +732,54 @@ Beginning:
                                                 goto AdminMethodss;
                                             }
                                             break;
+                                        case (int)AdminMethods.ActivateProduct:
+                                            try
+                                            {
+                                                Console.WriteLine("Enter product Id:");
+                                                adminServices.ShowDeactiveProducts();
+                                                int productId = Convert.ToInt32(Console.ReadLine());
+                                                Console.ForegroundColor = ConsoleColor.Green;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine("      Process is successful     ");
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                            }
+                                            catch (Exception ex)
+                                            {
+
+                                                Console.ForegroundColor = ConsoleColor.Red;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine(ex.Message);
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                                goto AdminMethodss;
+                                            }
+                                            break;
+                                        case (int)AdminMethods.ActivateDiscount:
+                                            try
+                                            {
+                                                Console.WriteLine("Enter discount Id:");
+                                                adminServices.ShowDeactiveDiscounts();
+                                                int discountId = Convert.ToInt32(Console.ReadLine());
+                                                Console.ForegroundColor = ConsoleColor.Green;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine("      Process is successful     ");
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                            }
+                                            catch (Exception ex)
+                                            {
+
+                                                Console.ForegroundColor = ConsoleColor.Red;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine(ex.Message);
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                                goto AdminMethodss;
+                                            }
+                                            break;
+                                        
+
                                         case (int)AdminMethods.ShowAllProducts:
                                             adminServices.ShowAllProducts();
                                             Console.ForegroundColor = ConsoleColor.Green;

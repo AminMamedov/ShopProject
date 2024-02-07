@@ -78,7 +78,7 @@ public class AdminServices : IAdminServices
         context.Brands.Add(brand);
         context.SaveChanges();
     }
-    public void CreateProduct(string name, decimal price, int discountId, int proCount, int brandId, int categoryId)
+    public void CreateProduct(string name, decimal price, int proCount, int brandId, int categoryId)
     {
         var us = context.Users.FirstOrDefault(u => u.ARegistr == true);
         if (us is null) throw new NotLoggedInException("Login as Admin user to choose this operation ");
@@ -90,14 +90,12 @@ public class AdminServices : IAdminServices
             {
                 Name = name,
                 Price = price ,
-                DiscountId = discountId,
                 ProductCount = proCount,
                 BrandId = brandId,
                 CategoryId = categoryId
             };
 
-                var dis = context.Discounts.Find(discountId);
-            product.Price = price - (price * dis.Percentage) / 100;
+
             context.Products.Add(product);
             product.IsActive = true;
             context.SaveChanges();
@@ -166,6 +164,21 @@ public class AdminServices : IAdminServices
 
         }
     }
+    public void ActivateDiscount(int discountId)
+    {
+        var dis = context.Discounts.Find(discountId);
+        if (dis is null) throw new DoesNotExistException($"Discount with Id : {discountId} doesn't exist");
+        if (dis.IsActive == true) throw new AlreadyActiveException($"Discount with Id :{discountId} already is active");
+        dis.IsActive = true;
+        foreach(var product in context.Products)
+        {
+            if(product.DiscountId == discountId)
+            {
+                product.Price = (product.Price * dis.Percentage) / 100;
+            }
+            context.SaveChanges();
+        }
+    }
     public void ShowAllDiscounts()
     {
         var us = context.Users.FirstOrDefault(u => u.ARegistr == true);
@@ -173,6 +186,16 @@ public class AdminServices : IAdminServices
         foreach (var dis in context.Discounts)
         {
             if (dis.IsActive == true)
+            {
+                Console.WriteLine($"Discount idL:{dis.Id} ; discount name:{dis.Name} ; discount percentage:{dis.Percentage}");
+            }
+        }
+    }
+    public void ShowDeactiveDiscounts()
+    {
+        foreach(var dis in context.Discounts)
+        {
+            if(dis.IsActive == false) 
             {
                 Console.WriteLine($"Discount idL:{dis.Id} ; discount name:{dis.Name} ; discount percentage:{dis.Percentage}");
             }

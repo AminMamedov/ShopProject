@@ -12,6 +12,7 @@ public  interface IAdminServices
     #region discount
     void CreateDiscount(string name, int percentage);
     void DisableDiscount(int discountId);
+    void ActivateDiscount(int discountId);
     void UpdateProductDiscount(int? discountId, int? productId);
     void ShowAllDiscounts();
     
@@ -22,11 +23,12 @@ public  interface IAdminServices
 
     #endregion
     #region product
-    void  CreateProduct(string name, decimal price, int discountId, int proCount, int brandId, int categoryId);
+    void  CreateProduct(string name, decimal price,int proCount, int brandId, int categoryId);
     void DeleteProduct(int productId);
     void ShowDeactiveProducts();
     void ActivateProduct(int productId);
     void ShowAllProducts();
+    void ShowDeactiveDiscounts();
     #endregion
     void AdminUserLogin(string userName, string password);
     void AdminUserLogout();
