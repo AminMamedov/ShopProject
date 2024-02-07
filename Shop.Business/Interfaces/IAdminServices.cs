@@ -35,6 +35,7 @@ public  interface IAdminServices
     void CreateCategory(string name);
     void ShowAllCategory();
     void ShowAllBrands();
+    void ShowAllInvoices();
     void CreateBrand(string name);
 
 }

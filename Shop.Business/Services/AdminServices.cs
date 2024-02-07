@@ -1,7 +1,9 @@
-﻿using Shop.Business.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using Shop.Business.Interfaces;
 using Shop.Business.Utilities.Exceptions;
 using Shop.Core.Entities;
 using Shop.DataAccess.DataAccess;
+using System.Threading.Channels;
 
 namespace Shop.Business.Services;
 
@@ -174,11 +176,13 @@ public class AdminServices : IAdminServices
         if (dis is null) throw new DoesNotExistException($"Discount with Id : {discountId} doesn't exist");
         if (dis.IsActive == true) throw new AlreadyActiveException($"Discount with Id :{discountId} already is active");
         dis.IsActive = true;
-        foreach (var product in context.Products)
+            context.SaveChanges();
+        var products = context.Products.ToList();
+        foreach (var product in products)
         {
             if (product.DiscountId == discountId)
             {
-                product.Price = (product.Price * dis.Percentage) / 100;
+                product.Price = product.Price - (product.Price * dis.Percentage) / 100;
             }
             context.SaveChanges();
         }
@@ -292,6 +296,23 @@ public class AdminServices : IAdminServices
             {
                 Console.WriteLine($"Brand id: {brand.Id}; Brand name: {brand.Name}");
             }
+        }
+    }
+    public async void ShowAllInvoices()
+    {
+        var invoices = await context.ShowInvoicesVWs.ToListAsync();
+        foreach(var invoice in invoices)
+        {
+            Console.WriteLine($"Invoice Id :{invoice.Id}\n" +
+                              $"User Id : {invoice.UserId}\n" +
+                              $"Username : {invoice.username}\n" +
+                              $"Delivery address : {invoice.DeliveryAddress}\n" +
+                              $"Product name : {invoice.ProductName}\n" +
+                              $"Product count : {invoice.ProductCount}\n" +
+                              $"Total price : {invoice.TotalPrice}\n" +
+                              $"Created time : {invoice.CreateTime}\n" +
+                              $"--------------------------------------\n" +
+                              $"--------------------------------------");
         }
     }
     public void AdminUserLogin(string userName, string password)

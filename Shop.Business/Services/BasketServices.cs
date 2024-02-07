@@ -66,7 +66,7 @@ public class BasketServices : IBasketServices
             }
         }
     }
-   
+
 
 
 
@@ -93,48 +93,59 @@ public class BasketServices : IBasketServices
                     var wal = context.Wallets.Find(walletId);
                     if (wal is null) throw new DoesNotExistException($"Wallet with Id:{walletId} doesn't exist");
                     if (wal.UserId != userId) throw new IncorrectExeption($"Wallet with Id:{walletId} doesn' belong to you");
-                    //if(pro.Price*count> wal.CardBalance) throw new 
+                    if (pro.Price * count > wal.CardBalance) throw new TotalpriceMoreThanBalanceException($"You don't have enough money in card");
+
+                    if (count > bp.ProductCount) throw new MoreThanBasProCountException($"This product's count in your basket = {bp.ProductCount}");
                     {
-                        if (count > bp.ProductCount) throw new MoreThanBasProCountException($"This product's count in your basket = {bp.ProductCount}");
+
+                        Invoice invoice = new()
                         {
-                            
-                            Invoice invoice = new()
-                            {
-                                UserId = userId,
-                                ProductName = pro.Name,
-                                ProductCount = count,
-                                TotalPrice = count * pro.Price,
-                                CreateTime = DateTime.Now
-                            };
-                            context.Invoices.Add(invoice);
-                            context.SaveChanges();
-                            ProductInvoice productInvoice = new()
-                            {
-                                ProductId = productId,
-                                InvoiceId = invoice.Id,
-                                ProductCount = count,
-                                Price = invoice.TotalPrice
+                            UserId = userId,
+                            ProductName = pro.Name,
+                            ProductCount = count,
+                            TotalPrice = count * pro.Price,
+                            CreateTime = DateTime.Now
+                        };
+                        context.Invoices.Add(invoice);
+                        context.SaveChanges();
+                        ProductInvoice productInvoice = new()
+                        {
+                            ProductId = productId,
+                            InvoiceId = invoice.Id,
+                            ProductCount = count,
+                            Price = invoice.TotalPrice
 
-                            };
-                            context.ProductInvoices.Add(productInvoice);
-                            pro.ProductCount = pro.ProductCount - count;
-                            bp.ProductCount = bp.ProductCount - count;
-                            context.SaveChanges();
-                            if (bp.ProductCount == 0)
-                            {
-                                context.BasketProducts.Remove(bp);
-                            }
-                            
-                            wal.CardBalance -= (count * pro.Price);
-                            context.SaveChanges();
-
+                        };
+                        context.ProductInvoices.Add(productInvoice);
+                        pro.ProductCount = pro.ProductCount - count;
+                        bp.ProductCount = bp.ProductCount - count;
+                        context.SaveChanges();
+                        if (bp.ProductCount == 0)
+                        {
+                            context.BasketProducts.Remove(bp);
                         }
+                        wal.CardBalance -= (count * pro.Price);
+                        context.SaveChanges();
+                        Console.WriteLine($"--------------------------------------\n" +
+                                          $"----------------INVOICE---------------\n" +
+                                          $"--------------------------------------\n" +
+                                          $"Invoice Id :{invoice.Id}\n" +
+                                          $"User Id : {invoice.UserId}\n" +
+                                          $"Product name : {invoice.ProductName}\n" +
+                                          $"Product count : {invoice.ProductCount}\n" +
+                                          $"Total price : {invoice.TotalPrice}\n" +
+                                          $"Created time : {invoice.CreateTime}\n" +
+                                          $"--------------------------------------\n" +
+                                          $"----------------INVOICE---------------\n" +
+                                          $"--------------------------------------");
+
                     }
                 }
-
-
             }
 
+
         }
+
     }
 }
+

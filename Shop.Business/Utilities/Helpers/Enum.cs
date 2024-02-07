@@ -45,6 +45,7 @@ public enum AdminMethods
     ShowDeactiveProducts,
     ShowDeactiveDiscounts,
     ShowAllProducts,
+    ShowAllInvoices,
     CreateCategory,
     CreateBrand,
     AdminUserLogout

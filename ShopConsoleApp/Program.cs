@@ -524,16 +524,17 @@ Beginning:
                                              "11 - Show deactive products\n" +
                                              "12 - Show Deactive discounts\n" +
                                              "13 - Show all products\n" +
-                                             "14 - Create Category\n" +
-                                             "15- Create Brand\n" +
-                                             "16- LogOut\n" +
+                                             "14 - Show all invoices\n" +
+                                             "15 - Create Category\n" +
+                                             "16 - Create Brand\n" +
+                                             "17- LogOut\n" +
                                              "----------------------------------");
                             string? option3 = Console.ReadLine();
                             int optionNumber3;
                             bool isInt3 = int.TryParse(option3, out optionNumber3);
                             if (isInt3 == true)
                             {
-                                if (optionNumber3 >= 0 && optionNumber3 <= 16)
+                                if (optionNumber3 >= 0 && optionNumber3 <= 17)
                                 {
                                     switch (optionNumber3)
                                     {
@@ -738,6 +739,7 @@ Beginning:
                                                 Console.WriteLine("Enter product Id:");
                                                 adminServices.ShowDeactiveProducts();
                                                 int productId = Convert.ToInt32(Console.ReadLine());
+                                                adminServices.ActivateProduct(productId);
                                                 Console.ForegroundColor = ConsoleColor.Green;
                                                 Console.WriteLine("--------------------------------");
                                                 Console.WriteLine("      Process is successful     ");
@@ -761,6 +763,7 @@ Beginning:
                                                 Console.WriteLine("Enter discount Id:");
                                                 adminServices.ShowDeactiveDiscounts();
                                                 int discountId = Convert.ToInt32(Console.ReadLine());
+                                                adminServices.ActivateDiscount(discountId);
                                                 Console.ForegroundColor = ConsoleColor.Green;
                                                 Console.WriteLine("--------------------------------");
                                                 Console.WriteLine("      Process is successful     ");
@@ -797,6 +800,14 @@ Beginning:
 
                                         case (int)AdminMethods.ShowAllProducts:
                                             adminServices.ShowAllProducts();
+                                            Console.ForegroundColor = ConsoleColor.Green;
+                                            Console.WriteLine("--------------------------------");
+                                            Console.WriteLine("      Process is successful     ");
+                                            Console.WriteLine("--------------------------------");
+                                            Console.ResetColor();
+                                            break;
+                                        case (int)AdminMethods.ShowAllInvoices:
+                                            adminServices.ShowAllInvoices();
                                             Console.ForegroundColor = ConsoleColor.Green;
                                             Console.WriteLine("--------------------------------");
                                             Console.WriteLine("      Process is successful     ");
