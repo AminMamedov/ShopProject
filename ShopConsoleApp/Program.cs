@@ -126,15 +126,15 @@ Beginning:
                                             {
 
                                                 User? user = context.Users.FirstOrDefault(u => u.URegistr == true);
-                                                int userId = user.Id;
+                                                int userIdd = user.Id;
                                                 productServices.ShowAllProducts();
                                                 Console.WriteLine("Enter product id:");
-                                                int productId = Convert.ToInt32(Console.ReadLine());
+                                                int productIdd = Convert.ToInt32(Console.ReadLine());
                                                 Console.WriteLine("Enter product count:");
-                                                var pro = context.Products.Find(productId);
+                                                var pro = context.Products.Find(productIdd);
                                                 Console.WriteLine($"The product's count in stock ={pro.ProductCount}");
-                                                int proCount = Convert.ToInt32(Console.ReadLine());
-                                                productServices.AddProductToBasket(productId, userId, proCount);
+                                                int proCountt = Convert.ToInt32(Console.ReadLine());
+                                                productServices.AddProductToBasket(productIdd, userIdd, proCountt);
                                                 Console.ForegroundColor = ConsoleColor.Green;
                                                 Console.WriteLine("--------------------------------");
                                                 Console.WriteLine("      Process is successful     ");
@@ -158,8 +158,8 @@ Beginning:
                                             {
                                                 User? user = context.Users.FirstOrDefault(u => u.URegistr == true);
                                                 int userId = user.Id;
-                                                basketServices.ShowBasketProducts(userId);
                                                 Console.WriteLine("Enter product id:");
+                                                basketServices.ShowBasketProducts(userId);
                                                 int productId = Convert.ToInt32(Console.ReadLine());
                                                 Console.WriteLine("Enter product count:");
                                                 var bas = context.Baskets.FirstOrDefault(b => b.UserId == userId);
@@ -213,11 +213,13 @@ Beginning:
                                             {
                                                 User? user = context.Users.FirstOrDefault(u => u.URegistr == true);
                                                 int userId = user.Id;
+                                                Console.WriteLine("Enter card balance:");
+                                                string bankName = Console.ReadLine();
                                                 Console.WriteLine("Enter card number:");
                                                 string cardNumber = Console.ReadLine();
                                                 Console.WriteLine("Enter card balance:");
                                                 decimal cardBalance = Convert.ToDecimal(Console.ReadLine());
-                                                walletServices.AddWallet(userId, cardNumber, cardBalance);
+                                                walletServices.AddWallet(userId, bankName, cardNumber, cardBalance);
                                                 Console.ForegroundColor = ConsoleColor.Green;
                                                 Console.WriteLine("--------------------------------");
                                                 Console.WriteLine("      Process is successful     ");

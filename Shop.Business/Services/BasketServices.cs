@@ -56,9 +56,9 @@ public class BasketServices : IBasketServices
                         if (product is not null && product.BasketID == bas.Id)
                         {
                             var pro = context.Products.FirstOrDefault(p => p.Id == product.ProductId);
-                            if (pro != null)
+                            if (pro != null && pro.IsActive == true)
                             {
-                                Console.WriteLine($"Product name: {pro.Name}; product price: {pro.Price}");
+                                Console.WriteLine($"Product Id:{pro.Id} ;product name: {pro.Name}; product price: {pro.Price}; product count : {product.ProductCount}");
                             }
                         }
                     }
@@ -66,6 +66,13 @@ public class BasketServices : IBasketServices
             }
         }
     }
+   
+
+
+
+
+
+
 
     public void BuyProduct(int userId, int productId, int walletId, int count)
     {
@@ -81,7 +88,7 @@ public class BasketServices : IBasketServices
                 if (bp is null) throw new DoesNotExistException($"Product with Id :{productId} doent't exist in your basket");
                 var pro = context.Products.Find(productId);
                 if (pro is null) throw new DoesNotExistException($"product with Id :{productId} doesn't exist");
-                if (pro.ProductCount == 0 ) throw new DoesNotExistException($"product with Id :{productId} out of stock");
+                if (pro.ProductCount == 0) throw new DoesNotExistException($"product with Id :{productId} out of stock");
                 {
                     var wal = context.Wallets.Find(walletId);
                     if (wal is null) throw new DoesNotExistException($"Wallet with Id:{walletId} doesn't exist");
@@ -108,9 +115,14 @@ public class BasketServices : IBasketServices
 
                             };
                             context.ProductInvoices.Add(productInvoice);
-                            bp.ProductCount = bp.ProductCount - count;
-                            wal.CardBalance = wal.CardBalance - (count * pro.Price);
                             pro.ProductCount = pro.ProductCount - count;
+                            bp.ProductCount = bp.ProductCount - count;
+                            context.SaveChanges();
+                            if (bp.ProductCount == 0)
+                            {
+                                context.BasketProducts.Remove(bp);
+                            }
+                            wal.CardBalance -= (count * pro.Price);
                             context.SaveChanges();
 
                         }

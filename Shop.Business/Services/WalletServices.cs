@@ -14,9 +14,10 @@ public class WalletServices : IWalletServices
     {
         context = new ShopDbContext();
     }
-    public void AddWallet(int userId, string cardNumber, decimal cardBalance)
+    public void AddWallet(int userId, string bankName,string cardNumber, decimal cardBalance)
     {
         var us = context.Users.Find(userId);
+        if (string.IsNullOrEmpty(bankName)) throw new ArgumentNullException();
         if (us is null) throw new DoesNotExistException($"User with id:{userId} doesn't exist");
         if (us.URegistr == true)
         {
@@ -27,6 +28,7 @@ public class WalletServices : IWalletServices
 
             Wallet wallet = new()
             {
+                BankName = bankName,
                 CardNumber = cardNumber,
                 UserId = us.Id,
                 CardBalance = cardBalance

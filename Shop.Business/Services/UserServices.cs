@@ -93,7 +93,8 @@ public class UserServices : IUserServices
                 {
                     if (wallet.UserId == userId)
                     {
-                        Console.WriteLine($"Wallet Id:{wallet.Id}; Card number : {wallet.CardNumber} ; card balance : {wallet.CardBalance}");
+                        
+                        Console.WriteLine($"Wallet Id:{wallet.Id}; Bank name:{wallet.BankName}; Card number : {wallet.CardNumber} ; card balance : {wallet.CardBalance}");
                     }
                 }
             }

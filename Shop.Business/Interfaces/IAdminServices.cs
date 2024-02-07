@@ -28,4 +28,7 @@ public  interface IAdminServices
     #endregion
     void AdminUserLogin(string userName,string email, string password);
     void AdminUserLogout();
+    void CreateCategory(string name);
+    void CreateBrand(string name);
+
 }

@@ -53,7 +53,30 @@ public class AdminServices : IAdminServices
 
         }
     }
-
+    public void CreateCategory(string name)
+    {
+        var cat = context.Categories.FirstOrDefault(c => c.Name == name);
+        if (cat is not null) throw new AlreadyExistException($"Category with name :{name} already exist");
+        Category category = new()
+        {
+            Name = name,
+            IsActive = true
+        };
+        context.Categories.Add(category);
+        context.SaveChanges();
+    }
+    public void CreateBrand(string name)
+    {
+        var br = context.Brands.FirstOrDefault(b => b.Name == name);
+        if (br is not null) throw new AlreadyExistException($"Brand with name :{name} already exist");
+        Brand brand = new()
+        {
+            Name = name,
+            IsActive = true
+        };
+        context.Brands.Add(brand);
+        context.SaveChanges();
+    }
     public void CreateProduct(string name, decimal price, int discountId, int proCount)
     {
         var us = context.Users.FirstOrDefault(u => u.ARegistr == true);
@@ -70,6 +93,7 @@ public class AdminServices : IAdminServices
                 ProductCount = proCount
             };
             context.Products.Add(product);
+            product.IsActive = true;
             context.SaveChanges();
 
         }
@@ -87,7 +111,7 @@ public class AdminServices : IAdminServices
             var pro = context.Products.Find(productId);
             if (pro is null) throw new DoesNotExistException($"Product with Id :{productId} doesn't exist");
             if (pro.ProductCount > 0) throw new StillHasProCountInStockException($"Product with Id :{productId} still exist in product stock");
-            context.Products.Remove(pro);
+            pro.IsActive = false;
             context.SaveChanges();
 
         }
@@ -111,7 +135,7 @@ public class AdminServices : IAdminServices
                 {
                     decimal perc = (100 - dis.Percentage);
                     product.DiscountId = null;
-                    product.Price = (product.Price *100)/perc;
+                    product.Price = (product.Price * 100) / perc;
 
                 }
             }
@@ -123,7 +147,7 @@ public class AdminServices : IAdminServices
     {
         var us = context.Users.FirstOrDefault(u => u.ARegistr == true);
         if (us is null) throw new NotLoggedInException("Login as Admin user to choose this operation ");
-        foreach(var dis in context.Discounts)
+        foreach (var dis in context.Discounts)
         {
             if (dis.IsActive == true)
             {

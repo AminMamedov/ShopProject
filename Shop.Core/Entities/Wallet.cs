@@ -3,6 +3,8 @@
 public class Wallet
 {
     public int Id { get; set; }
+    public string BankName { get; set; }
+
     public string CardNumber { get; set; }
     public int UserId { get; set; }
     public decimal CardBalance {get; set;}

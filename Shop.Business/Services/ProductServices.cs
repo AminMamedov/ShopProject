@@ -29,10 +29,12 @@ public class ProductServices : IProductServices
         if (us == null) throw new NotFiniteNumberException($"User with Id :{userId} not found");
         if (us.URegistr == true)
         {
-            BasketProduct? basproduct = context.BasketProducts.FirstOrDefault(b => b.ProductId == productId && b.BasketID == bas.Id);
+            var basproduct = context.BasketProducts.FirstOrDefault(b => b.ProductId == productId && b.BasketID == bas.Id);
             if (basproduct is not null)
             {
                 basproduct.ProductCount = basproduct.ProductCount + proCount;
+                bas.ProductCount = bas.ProductCount + proCount;
+                context.SaveChanges();
             }
             else
             {
@@ -44,12 +46,12 @@ public class ProductServices : IProductServices
 
                 };
                 context.BasketProducts.Add(basketProduct);
+                bas.ProductCount = bas.ProductCount + proCount;
+                context.SaveChanges();
 
             }
-            bas.ProductCount = bas.ProductCount + proCount;
 
 
-            context.SaveChanges();
         }
     }
 
@@ -69,13 +71,13 @@ public class ProductServices : IProductServices
         if (us.URegistr == true)
         {
             bas.ProductCount = bas.ProductCount - proCount;
-
             bp.ProductCount = bp.ProductCount - proCount;
-            if (bas.ProductCount == 0)
+            context.SaveChanges();
+            if (bp.ProductCount == 0)
             {
                 context.BasketProducts.Remove(bp);
-            }
                 context.SaveChanges();
+            }
         }
     }
 
