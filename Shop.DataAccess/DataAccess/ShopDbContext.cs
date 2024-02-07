@@ -17,6 +17,7 @@ public class ShopDbContext : DbContext
     public DbSet<Discount> Discounts { get; set; } = null!;
     public DbSet<Category> Categories { get; set; } = null!;
     public DbSet<Brand> Brands { get; set; } = null!;
+    public DbSet<ShowInvoicesVW> ShowInvoicesVWs { get; set; } = null!;
     public DbSet<BasketProduct> BasketProducts { get; set; } = null!;
     public DbSet<ProductInvoice> ProductInvoices { get; set; } = null!;
 
@@ -80,6 +81,10 @@ public class ShopDbContext : DbContext
             .HasMany(i => i.ProductInvoice)
             .WithOne(pi => pi.Invoice)
             .HasForeignKey(pi => pi.InvoiceId);
+
+        modelBuilder.Entity<ShowInvoicesVW>()
+            .ToView("vw_Invoices")
+            .HasNoKey();
         #endregion
 
     }

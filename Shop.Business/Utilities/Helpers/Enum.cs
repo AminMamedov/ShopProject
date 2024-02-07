@@ -4,7 +4,8 @@ public enum Register
 {
     Login=1,
     LoginAsAdmin,
-    CreateAccount
+    CreateAccount,
+    Quit
 }
 public enum Settings
 {
@@ -40,5 +41,7 @@ public enum AdminMethods
     CreateProduct,
     DeleteProduct,
     ShowAllProducts,
+    CreateCategory,
+    CreateBrand,
     AdminUserLogout
 }

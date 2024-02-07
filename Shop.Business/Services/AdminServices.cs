@@ -77,7 +77,7 @@ public class AdminServices : IAdminServices
         context.Brands.Add(brand);
         context.SaveChanges();
     }
-    public void CreateProduct(string name, decimal price, int discountId, int proCount)
+    public void CreateProduct(string name, decimal price, int discountId, int proCount, int brandId, int categoryId)
     {
         var us = context.Users.FirstOrDefault(u => u.ARegistr == true);
         if (us is null) throw new NotLoggedInException("Login as Admin user to choose this operation ");
@@ -90,7 +90,9 @@ public class AdminServices : IAdminServices
                 Name = name,
                 Price = price,
                 DiscountId = discountId,
-                ProductCount = proCount
+                ProductCount = proCount,
+                BrandId = brandId,
+                CategoryId = categoryId
             };
             context.Products.Add(product);
             product.IsActive = true;
@@ -110,7 +112,6 @@ public class AdminServices : IAdminServices
         {
             var pro = context.Products.Find(productId);
             if (pro is null) throw new DoesNotExistException($"Product with Id :{productId} doesn't exist");
-            if (pro.ProductCount > 0) throw new StillHasProCountInStockException($"Product with Id :{productId} still exist in product stock");
             pro.IsActive = false;
             context.SaveChanges();
 
@@ -128,7 +129,6 @@ public class AdminServices : IAdminServices
             var dis = context.Discounts.Find(discountId);
             if (dis is null) throw new DoesNotExistException($"Discount with Id :{discountId} doesn't exist");
             if (dis.IsActive == false) throw new AlreadyDoesNotActiveException($"Discount with Id :{discountId} already deactivated");
-            dis.IsActive = false;
             foreach (var product in context.Products)
             {
                 if (product.DiscountId == discountId)
@@ -139,6 +139,7 @@ public class AdminServices : IAdminServices
 
                 }
             }
+            dis.IsActive = false;
             context.SaveChanges();
 
         }
@@ -177,16 +178,19 @@ public class AdminServices : IAdminServices
     {
         foreach (var product in context.Products)
         {
-            var dis = context.Discounts.Find(product.DiscountId);
-            if (dis is null)
+            if (product.IsActive == true)
             {
-                Console.WriteLine($"Product Id :{product.Id} ; product name:{product.Name} ; product price: {product.Price}");
 
-            }
-            else
-            {
-                Console.WriteLine($"Product Id :{product.Id} ; product name:{product.Name} ; product price: {product.Price} ; product discountId:{product.DiscountId}");
+                if (product.DiscountId is null)
+                {
+                    Console.WriteLine($"Product Id :{product.Id} ; product name:{product.Name} ; product price: {product.Price}");
 
+                }
+                else
+                {
+                    Console.WriteLine($"Product Id :{product.Id} ; product name:{product.Name} ; product price: {product.Price} ; product discountId:{product.DiscountId}");
+
+                }
             }
 
 
@@ -221,29 +225,39 @@ public class AdminServices : IAdminServices
             }
         }
     }
-
-    public void AdminUserLogin(string userName, string email, string password)
+    public void ShowAllCategory()
     {
+        foreach (var category in context.Categories)
+        {
+            if (category is not null && category.IsActive == true)
+            {
+                Console.WriteLine($"Category id: {category.Id}; category name: {category.Name}");
+            }
+        }
+    }
+    public void ShowAllBrands()
+    {
+        foreach (var brand in context.Brands)
+        {
+            if (brand is not null && brand.IsActive == true)
+            {
+                Console.WriteLine($"Brand id: {brand.Id}; Brand name: {brand.Name}");
+            }
+        }
+    }
+    public void AdminUserLogin(string userName, string password)
+    {
+        if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password)) throw new ArgumentException();
         var u1 = context.Users.FirstOrDefault(u => u.Username == userName);
-        if (u1 is null)
-        {
-            var u2 = context.Users.FirstOrDefault(u1 => u1.Email == email);
-            if (u2 is null) throw new DoesNotExistException($"Admin user with name:{userName} and email:{email} doesn't exist");
-            if (u2.Password == password && u2.IsAdminUser == true)
-            {
-                u2.ARegistr = true;
-            }
-            context.SaveChanges();
+        if (u1 is null) throw new DoesNotExistException($"Admin user with name:{userName} doesn't exist");
+        if (u1.Password != password) throw new IncorrectExeption("Username or password is incorrect,please try again");
 
-        }
-        else
+        if (u1.IsAdminUser == true)
         {
-            if (u1.Password == password && u1.IsAdminUser == true)
-            {
-                u1.ARegistr = true;
-            }
-            context.SaveChanges();
+            u1.ARegistr = true;
         }
+        context.SaveChanges();
+
 
 
     }

@@ -27,6 +27,7 @@ Beginning:
                      " 1 - Login\n" +
                      " 2 - Login as admin\n" +
                      " 3 - If you don't have account, create it:)\n" +
+                     " 4 - Quit\n" +
                      "----------------------------------");
 
     string? option = Console.ReadLine();
@@ -35,7 +36,7 @@ Beginning:
 
     if (isInt == true)
     {
-        if (optionNumber >= 0 && optionNumber <= 3)
+        if (optionNumber >= 0 && optionNumber <= 4)
         {
             switch (optionNumber)
             {
@@ -489,11 +490,10 @@ Beginning:
                     {
                         Console.WriteLine("Enter your username:");
                         string? username = Console.ReadLine();
-                        Console.WriteLine("Enter your email adress:");
-                        string? email = Console.ReadLine();
+
                         Console.WriteLine("Enter password:");
                         string? password = Console.ReadLine();
-                        adminServices.AdminUserLogin(username, email, password);
+                        adminServices.AdminUserLogin(username, password);
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("--------------------------------");
                         Console.WriteLine("             Welcome!           ");
@@ -519,14 +519,16 @@ Beginning:
                                              " 7 - Create product\n" +
                                              " 8 - Delete product\n" +
                                              " 9 - Show all products\n" +
-                                             "10 - LogOut\n" +
+                                             "10 - Create Category\n" +
+                                             "11- Create Brand\n" +
+                                             "12- LogOut\n" +
                                              "----------------------------------");
                             string? option3 = Console.ReadLine();
                             int optionNumber3;
                             bool isInt3 = int.TryParse(option3, out optionNumber3);
                             if (isInt3 == true)
                             {
-                                if (optionNumber3 >= 0 && optionNumber3 <= 10)
+                                if (optionNumber3 >= 0 && optionNumber3 <= 12)
                                 {
                                     switch (optionNumber3)
                                     {
@@ -679,7 +681,13 @@ Beginning:
                                                 int discountId = Convert.ToInt32(Console.ReadLine());
                                                 Console.WriteLine("Enter product count:");
                                                 int proCount = Convert.ToInt32(Console.ReadLine());
-                                                adminServices.CreateProduct(proName, price, discountId, proCount);
+                                                Console.WriteLine("Enter brand id:");
+                                                adminServices.ShowAllBrands();
+                                                int brandId = Convert.ToInt32(Console.ReadLine());
+                                                Console.WriteLine("Enter category id:");
+                                                adminServices.ShowAllCategory();
+                                                int categoryId = Convert.ToInt32(Console.ReadLine());
+                                                adminServices.CreateProduct(proName, price, discountId, proCount, brandId, categoryId);
                                                 Console.ForegroundColor = ConsoleColor.Green;
                                                 Console.WriteLine("--------------------------------");
                                                 Console.WriteLine("      Process is successful     ");
@@ -728,25 +736,64 @@ Beginning:
                                             Console.WriteLine("--------------------------------");
                                             Console.ResetColor();
                                             break;
-                                        case (int)AdminMethods.AdminUserLogout:
+                                        case (int)AdminMethods.CreateCategory:
                                             try
                                             {
-                                                adminServices.AdminUserLogout();
+                                                Console.WriteLine("Enter Category name:");
+                                                string name = Console.ReadLine();
+                                                adminServices.CreateCategory(name);
                                                 Console.ForegroundColor = ConsoleColor.Green;
                                                 Console.WriteLine("--------------------------------");
-                                                Console.WriteLine("      See you later :)    ");
+                                                Console.WriteLine("      Process is successful     ");
                                                 Console.WriteLine("--------------------------------");
                                                 Console.ResetColor();
                                             }
                                             catch (Exception ex)
                                             {
+
                                                 Console.ForegroundColor = ConsoleColor.Red;
                                                 Console.WriteLine("--------------------------------");
                                                 Console.WriteLine(ex.Message);
                                                 Console.WriteLine("--------------------------------");
                                                 Console.ResetColor();
-                                                goto Beginning;
+                                                goto AdminMethodss;
                                             }
+                                            break;
+                                        case (int)AdminMethods.CreateBrand:
+
+                                            try
+                                            {
+                                                Console.WriteLine("Enter Brand name:");
+                                                string name = Console.ReadLine();
+                                                adminServices.CreateBrand(name);
+                                                Console.ForegroundColor = ConsoleColor.Green;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine("      Process is successful     ");
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                            }
+                                            catch (Exception ex)
+                                            {
+
+                                                Console.ForegroundColor = ConsoleColor.Red;
+                                                Console.WriteLine("--------------------------------");
+                                                Console.WriteLine(ex.Message);
+                                                Console.WriteLine("--------------------------------");
+                                                Console.ResetColor();
+                                                goto AdminMethodss;
+                                            }
+                                            break;
+                                        case (int)AdminMethods.AdminUserLogout:
+
+                                            adminServices.AdminUserLogout();
+                                            Console.ForegroundColor = ConsoleColor.Green;
+                                            Console.WriteLine("--------------------------------");
+                                            Console.WriteLine("      See you later :)    ");
+                                            Console.WriteLine("--------------------------------");
+                                            Console.ResetColor();
+                                            isContinueAd = false;
+
+
                                             break;
                                     }
                                 }
@@ -787,7 +834,7 @@ Beginning:
                         Console.WriteLine("  Successfully created.Welcome! ");
                         Console.WriteLine("--------------------------------");
                         Console.ResetColor();
-                        
+
 
                     }
                     catch (Exception ex)
@@ -800,6 +847,9 @@ Beginning:
                         Console.ResetColor();
                         goto Beginning;
                     }
+                    break;
+                case (int)Register.Quit:
+                    isContinue = false;
                     break;
             }
         }

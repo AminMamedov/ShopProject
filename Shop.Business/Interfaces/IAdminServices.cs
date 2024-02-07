@@ -22,13 +22,15 @@ public  interface IAdminServices
 
     #endregion
     #region product
-    void  CreateProduct(string name, decimal price, int discountId, int proCount);
+    void  CreateProduct(string name, decimal price, int discountId, int proCount, int brandId, int categoryId);
     void DeleteProduct(int productId);
     void ShowAllProducts();
     #endregion
-    void AdminUserLogin(string userName,string email, string password);
+    void AdminUserLogin(string userName, string password);
     void AdminUserLogout();
     void CreateCategory(string name);
+    void ShowAllCategory();
+    void ShowAllBrands();
     void CreateBrand(string name);
 
 }
